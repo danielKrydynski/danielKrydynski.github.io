@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="taskManager.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <div id="auth">
+            <input type="text" id="usernameInput" placeholder="Enter username">
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button id="loginButton">Login</button>
+            <button id="registerButton">Register</button>
+        </div>
+        <div id="taskManager" style="display: none;">
+            <div class="task-input">
+                <input type="text" id="taskInput" placeholder="Enter a new task">
+                <input type="text" id="descriptionInput" placeholder="Enter a description">
+                <button id="addTaskButton">Add Task</button>
+            </div>
+            <ul id="taskList"></ul>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+    <script src="taskManager.js"></script>
+</body>
+</html>

@@ -41,3 +41,34 @@ $('a.smooth-scroll')
     }
   }
 });
+
+function calculateAge(birthDate) {
+    // Convert the birthDate string into a Date object
+    const birth = new Date(birthDate);
+
+    // Get the current date
+    const today = new Date();
+
+    // Calculate the initial age difference in years
+    let age = today.getFullYear() - birth.getFullYear();
+
+    // Calculate the difference in months
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    // Calculate the difference in days within the month
+    const dayDiff = today.getDate() - birth.getDate();
+
+    // If the birth month hasn't occurred yet this year, or if it's the birth month
+    // but the birthday hasn't happened yet, subtract one from the age
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    return age; // Return the calculated age
+}
+
+// Example usage:
+// Replace "YYYY-MM-DD" with your actual birthdate
+const myBirthDate = "1994-03-18"; 
+console.log("Your age is:", calculateAge(myBirthDate));
+document.getElementById("ageDisplay").textContent = calculateAge(myBirthDate);
