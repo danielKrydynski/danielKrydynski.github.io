@@ -5,14 +5,109 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Daniel Krydynski</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Additional favicon formats for better device/browser support -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
     <meta name="description" content="Creative CV is a HTML resume template for professionals. Built with Bootstrap 4, Now UI Kit and FontAwesome, this modern and responsive design template is perfect to showcase your portfolio, skils and experience."/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/aos.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
+    <style>
+      /* Dark mode styles */
+      body.dark-mode {
+        background: #181a1b !important;
+        color: #e4e6eb !important;
+      }
+      .dark-mode .card, .dark-mode .card-body, .dark-mode .section, .dark-mode .footer, .dark-mode .thankyou-card {
+        background: #23272b !important;
+        color: #e4e6eb !important;
+        border-color: #23272b !important;
+      }
+      .dark-mode .bg-light, .dark-mode .bg-primary, .dark-mode .rounded-left {
+        background: #23272b !important;
+        color: #e4e6eb !important;
+      }
+      .dark-mode .btn-primary, .dark-mode .btn-outline-light, .dark-mode .btn-light {
+        background: #007bff !important;
+        color: #fff !important;
+        border-color: #007bff !important;
+      }
+      .dark-mode .btn-outline-light {
+        background: transparent !important;
+        color: #fff !important;
+        border-color: #fff !important;
+      }
+      .dark-mode .form-control {
+        background: #23272b !important;
+        color: #e4e6eb !important;
+        border-color: #444 !important;
+      }
+      .dark-mode .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+      }
+      .dark-mode .progress-bar-primary {
+        background-color: #007bff !important;
+      }
+      .dark-mode .text-muted, .dark-mode .category {
+        color: #b0b3b8 !important;
+      }
+      .dark-mode .navbar, .dark-mode .navbar-brand, .dark-mode .nav-link {
+        background: #23272b !important;
+        color: #e4e6eb !important;
+      }
+      .dark-mode .btn-default {
+        background: #23272b !important;
+        color: #fff !important;
+        border-color: #fff !important;
+      }
+      .dark-mode .btn-default:hover {
+        background: #007bff !important;
+        color: #fff !important;
+      }
+      .dark-mode .border, .dark-mode .border-white {
+        border-color: #444 !important;
+      }
+      /* Scroll Progress Bar styles */
+      #scrollProgressBar {
+        background: #007bff;
+        height: 4px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0;
+        z-index: 3000;
+        transition: width 0.2s;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      }
+      body.dark-mode #scrollProgressBar {
+        background: #3399ff;
+      }
+    </style>
   </head>
   <body id="top">
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgressBar" aria-hidden="true"></div>
+    <!-- Modern Light/Dark Mode Toggle Switch -->
+    <div id="themeToggleWrapper" style="position:fixed;top:18px;right:18px;z-index:2000;">
+      <button id="themeToggle" aria-label="Toggle light and dark mode" aria-pressed="false" type="button" class="theme-switch" tabindex="0">
+        <span class="theme-switch-track">
+          <span class="theme-switch-icon theme-switch-sun" aria-hidden="true">
+            <!-- Sun SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="5" fill="#FFD600"/><g stroke="#FFD600" stroke-width="1.5"><line x1="10" y1="1.5" x2="10" y2="4"/><line x1="10" y1="16" x2="10" y2="18.5"/><line x1="1.5" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="18.5" y2="10"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="14.36" y1="14.36" x2="15.78" y2="15.78"/><line x1="4.22" y1="15.78" x2="5.64" y2="14.36"/><line x1="14.36" y1="5.64" x2="15.78" y2="4.22"/></g></svg>
+          </span>
+          <span class="theme-switch-icon theme-switch-moon" aria-hidden="true">
+            <!-- Moon SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 13.5C13.5 16.5 9 17 6.5 14.5C4 12 4.5 7.5 7.5 5.5C8.5 4.8 9.7 4.5 10.8 4.7C10.3 5.5 10 6.5 10 7.5C10 10.5 12.5 13 15.5 13.5Z" fill="#3399ff"/></svg>
+          </span>
+        </span>
+        <span class="theme-switch-thumb"></span>
+      </button>
+    </div>
     <header>
       <div class="profile-page sidebar-collapse">
         <nav class="navbar navbar-expand-lg fixed-top navbar-transparent bg-primary" color-on-scroll="400">
@@ -43,11 +138,14 @@
       <div class="page-header-image" data-parallax="true" style="background-image: url('images/cc-bg-1.jpg');"></div>
       <div class="container">
         <div class="content-center">
-          <div class="cc-profile-image"><a href="#"><img src="images/daniel.jpg" alt="Image"/></a></div>
+          <div class="cc-profile-image"><a href="#"><img src="images/daniel.jpg" alt="Daniel Krydynski profile photo"/></a></div>
           <div class="h2 title">Daniel Krydynski</div>
           <p class="category text-white">Web Developer, UI/UX Designer,  Game Developer</p>
           <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a>
-          <a class="btn btn-primary" href="assets/Daniel-Krydynski-Resume.pdf" target="_blank" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Download CV</a>
+          <a class="btn btn-primary mr-2" href="assets/Daniel-Krydynski-Resume.pdf" target="_blank" data-aos="zoom-in" data-aos-anchor="data-aos-anchor" download>Download CV</a>
+          <button id="printResumeBtn" class="btn btn-outline-primary" type="button" data-aos="zoom-in" data-aos-anchor="data-aos-anchor" style="vertical-align:middle;">
+            <i class="fa fa-print" aria-hidden="true"></i> Print Resume
+          </button>
         </div>
       </div>
       <div class="section">
@@ -69,8 +167,10 @@
         <div class="col-lg-6 col-md-12">
           <div class="card-body">
             <div class="h4 mt-0 title">About</div>
-            <p>Hello! I am Daniel Krydynski. Web Developer, UI/UX Developer and Game Developer.</p>
-            <p>I focus on iterative design and rapid prototyping to quickly obtain feedback from clients and users so I can create easy to use experiences on multiple platforms.</p>
+            <p>Hello! I’m Daniel Krydynski, a passionate Web Developer, UI/UX Designer, and Game Developer based in the Greater St. Louis Area. I specialize in building interactive, user-friendly web applications and digital experiences across multiple platforms.</p>
+            <p>With a strong foundation in both design and development, I thrive on turning ideas into polished products. My approach centers on iterative design and rapid prototyping, allowing me to quickly gather feedback and deliver solutions that are both functional and visually appealing.</p>
+            <p>I have experience working with a variety of technologies, including Python, JavaScript, Bootstrap, Salesforce, and game engines like Unity. Whether collaborating with teams or working independently, I’m committed to continuous learning and delivering high-quality results.</p>
+            <p>When I’m not coding or designing, I enjoy exploring new tech trends, creating digital art, and developing indie games.</p>
           </div>
         </div>
         <div class="col-lg-6 col-md-12">
@@ -113,7 +213,7 @@
         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
           <div class="card-body">
             <div class="h5">Sales Operations Specialist</div>
-            <p>enter orders into salesforce, generate contracts, and ensure processes are followed and completed after signature to ensure order flow can proceed with easy and efficentcy.</p>
+            <p>Entered orders into Salesforce, generated contracts, and ensured processes were followed and completed after signature to ensure order flow could proceed with ease and efficiency.</p>
           </div>
         </div>
       </div>
@@ -144,8 +244,8 @@
         </div>
         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
           <div class="card-body">
-            <div class="h5">Technical Solutions and Tools Analysts</div>
-            <p>Front end developer for internal tools created for the Quicktools platform that assists agents with troubleshooting and technical inquiries. Answered questions and performed troubleshooting for the Expedia and Hotels.com sites.</p>
+            <div class="h5">Technical Solutions and Tools Analyst</div>
+            <p>Front-end developer for internal tools created for the Quicktools platform that assist agents with troubleshooting and technical inquiries. Answered questions and performed troubleshooting for the Expedia and Hotels.com sites.</p>
           </div>
         </div>
       </div>
@@ -161,7 +261,7 @@
         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
           <div class="card-body">
             <div class="h5">Intern Developer</div>
-            <p>Gathered and updated documentation for programs alongside Business Systems’ Technology team including developers and system architects for the conversion project to migrate their systems from IBM mainframes to Oracle databases.</p>
+            <p>Gathered and updated documentation for programs alongside the Business Systems Technology team, including developers and system architects, for the conversion project to migrate their systems from IBM mainframes to Oracle databases.</p>
           </div>
         </div>
       </div>
@@ -177,7 +277,7 @@
         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
           <div class="card-body">
             <div class="h5">Junior Web Developer</div>
-            <p>Designed and developed web applications for use by the school such as a Volunteer KPI tracker.</p>
+            <p>Designed and developed web applications for use by the school, such as a Volunteer KPI tracker.</p>
           </div>
         </div>
       </div>
@@ -199,7 +299,12 @@
         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
           <div class="card-body">
             <div class="h5">Internal technical tools platform</div>
-            <p>Implemented front end reactive framework using Bootstrap 4 on a Python Flask web platform. Prototyped, designed, and developed the visual style using Adobe Photoshop and XD for the user experience and customized the Bootstrap 4 framework to implement the new design into production.</p>
+            <p>Implemented a front-end reactive framework using <strong>Bootstrap 4</strong> on a <strong>Python Flask</strong> web platform. Prototyped, designed, and developed the visual style using <strong>Adobe Photoshop</strong> and <strong>Adobe XD</strong> for the user experience, and customized the Bootstrap 4 framework to implement the new design into production.</p>
+            <ul>
+              <li><strong>Technologies:</strong> Python, Flask, Bootstrap 4, JavaScript, Adobe Photoshop, Adobe XD</li>
+              <!-- GitHub link removed: private/internal project -->
+            </ul>
+            <!-- Add a live demo link if available -->
           </div>
         </div>
       </div>
@@ -215,7 +320,12 @@
         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
           <div class="card-body">
             <div class="h5">Internal report for student volunteer hours</div>
-            <p>Designed and developed a reporting tool using the Grails web application framework that utilizes the Groovy language to pull and display the data for how many hours the volunteers  have completed  and sorted the data into what projects the hours were associated with..</p>
+            <p>Designed and developed a reporting tool using the <strong>Grails</strong> web application framework (Groovy language) to pull and display data for volunteer hours, sorted by project.</p>
+            <ul>
+              <li><strong>Technologies:</strong> Grails, Groovy, SQL, Bootstrap</li>
+              <!-- GitHub link removed: private/internal project -->
+            </ul>
+            <!-- Add a live demo link if available -->
           </div>
         </div>
       </div>
@@ -392,30 +502,30 @@
         <div class="ml-auto mr-auto">
           <div class="row">
             <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href=weatherApp/weatherApp.html>
+              <div class="cc-porfolio-image img-raised" data-aos="zoom-in" data-aos-delay="0" data-aos-duration="700" data-aos-easing="ease-out-cubic"><a href=weatherApp/weatherApp.html>
                   <figure class="cc-effect"><img src="images/project-1.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Weather App Project</div>
                       <p>Web Development</p>
                     </figcaption>
                   </figure></a></div>
-              <!-- <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#web-development">
+              <!-- <div class="cc-porfolio-image img-raised" data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-out-cubic"><a href="#web-development">
                   <figure class="cc-effect"><img src="images/project-2.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Startup Project</div>
                       <p>Web Development</p>
                     </figcaption>
-                  </figure></a></div>
+                  </figure></a></div> -->
             </div>
             <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#web-development">
+              <div class="cc-porfolio-image img-raised" data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-out-cubic"><a href="#web-development">
                   <figure class="cc-effect"><img src="images/project-3.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Food Order Project</div>
                       <p>Web Development</p>
                     </figcaption>
                   </figure></a></div>
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#web-development">
+              <div class="cc-porfolio-image img-raised" data-aos="zoom-in" data-aos-delay="200" data-aos-duration="700" data-aos-easing="ease-out-cubic"><a href="#web-development">
                   <figure class="cc-effect"><img src="images/project-4.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Web Advertising Project</div>
@@ -430,14 +540,14 @@
         <div class="ml-auto mr-auto">
           <div class="row">
             <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#graphic-design">
+              <div class="cc-porfolio-image img-raised" data-aos="flip-left" data-aos-delay="0" data-aos-duration="800" data-aos-easing="ease-out-cubic"><a href="#graphic-design">
                   <figure class="cc-effect"><img src="images/graphic-design-1.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Triangle Pattern</div>
                       <p>Graphic Design</p>
                     </figcaption>
                   </figure></a></div>
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#graphic-design">
+              <div class="cc-porfolio-image img-raised" data-aos="flip-left" data-aos-delay="100" data-aos-duration="800" data-aos-easing="ease-out-cubic"><a href="#graphic-design">
                   <figure class="cc-effect"><img src="images/graphic-design-2.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Abstract Umbrella</div>
@@ -446,14 +556,14 @@
                   </figure></a></div>
             </div>
             <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#graphic-design">
+              <div class="cc-porfolio-image img-raised" data-aos="flip-left" data-aos-delay="200" data-aos-duration="800" data-aos-easing="ease-out-cubic"><a href="#graphic-design">
                   <figure class="cc-effect"><img src="images/graphic-design-3.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Cube Surface Texture</div>
                       <p>Graphic Design</p>
                     </figcaption>
                   </figure></a></div>
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#graphic-design">
+              <div class="cc-porfolio-image img-raised" data-aos="flip-left" data-aos-delay="300" data-aos-duration="800" data-aos-easing="ease-out-cubic"><a href="#graphic-design">
                   <figure class="cc-effect"><img src="images/graphic-design-4.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Abstract Line</div>
@@ -468,14 +578,14 @@
         <div class="ml-auto mr-auto">
           <div class="row">
             <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#Photography">
+              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-delay="0" data-aos-duration="900" data-aos-easing="ease-out-cubic"><a href="#Photography">
                   <figure class="cc-effect"><img src="images/photography-1.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Photoshoot</div>
                       <p>Photography</p>
                     </figcaption>
                   </figure></a></div>
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#Photography">
+              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900" data-aos-easing="ease-out-cubic"><a href="#Photography">
                   <figure class="cc-effect"><img src="images/photography-3.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Wedding Photoshoot</div>
@@ -484,14 +594,14 @@
                   </figure></a></div>
             </div>
             <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#Photography">
+              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900" data-aos-easing="ease-out-cubic"><a href="#Photography">
                   <figure class="cc-effect"><img src="images/photography-2.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Beach Photoshoot</div>
                       <p>Photography</p>
                     </figcaption>
                   </figure></a></div>
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#Photography">
+              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-delay="300" data-aos-duration="900" data-aos-easing="ease-out-cubic"><a href="#Photography">
                   <figure class="cc-effect"><img src="images/photography-4.jpg" alt="Image"/>
                     <figcaption>
                       <div class="h4">Nature Photoshoot</div>
@@ -543,42 +653,216 @@
     </div>
   </div>
 </div>
-<div class="section" id="contact">
-  <div class="cc-contact-information" style="background-image: url('images/staticmap.png'); background-repeat: no-repeat; background-size:cover;">
-    <div class="container">
-      <div class="cc-contact">
-        <div class="row">
-          <div class="col-md-9">
-            <div class="card mb-0" data-aos="zoom-in">
-              <div class="h4 text-center title">Contact Me</div>
-              <div class="row m-auto">
+<div class="section bg-light" id="contact" style="background-color: #f8f9fa;">
+  <div class="container">
+    <div class="card p-4 shadow-lg border-0" data-aos="fade-up" style="background: #fff;">
+      <div class="row no-gutters align-items-stretch">
+        <div class="col-lg-5 d-flex align-items-stretch bg-primary text-white rounded-left" style="min-height: 100%;">
+          <div class="w-100 d-flex flex-column justify-content-center align-items-center p-4 text-center">
+            <img src="images/daniel-2.jpg" class="rounded-circle mb-3 border border-white" alt="Daniel Krydynski alternate profile photo" style="width:120px;height:120px;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,0.18);">
+            <div class="h4 mb-2 font-weight-bold" style="letter-spacing:1px;">Contact Info</div>
+            <p class="mb-3" style="font-size:1rem;opacity:0.85;">Feel free to reach out by phone, email, or connect with me on social media. I look forward to hearing from you!</p>
+            <p class="mb-1"><i class="fa fa-phone mr-2"></i> <a href="tel:5738039136" style="color:#fff;text-decoration:underline;">573.803.9136</a></p>
+            <p class="mb-1 d-flex justify-content-center align-items-center" style="gap:0.5rem;">
+              <i class="fa fa-envelope mr-2"></i>
+              <a href="mailto:danielkrydynski@gmail.com" style="color:#fff;text-decoration:underline;">danielkrydynski@gmail.com</a>
+              <button id="copyEmailBtn" type="button" class="btn btn-sm btn-light ml-2" style="padding:0.25rem 0.6rem;font-size:0.95rem;line-height:1.2;" aria-label="Copy email address" title="Copy email to clipboard">
+                <i class="fa fa-copy" aria-hidden="true"></i>
+              </button>
+              <span id="copyEmailTooltip" class="ml-1" style="display:none;font-size:0.95rem;color:#fff;background:#28a745;border-radius:0.3rem;padding:0.1rem 0.5rem;" aria-live="polite">Copied!</span>
+            </p>
+            <div class="mt-3 d-flex flex-wrap justify-content-center align-items-center" style="gap:0.5rem;">
+              <a class="btn btn-outline-light btn-sm mr-2" href="https://github.com/danielKrydynski" target="_blank" rel="noopener" title="Visit my Github profile (opens in new tab)"><i class="fa fa-github"></i> Github</a>
+              <a class="btn btn-outline-light btn-sm mr-2" href="https://www.linkedin.com/in/danielkrydynski/" target="_blank" rel="noopener" title="Visit my LinkedIn profile (opens in new tab)"><i class="fa fa-linkedin"></i> LinkedIn</a>
+              <a href="DanielKrydynski.vcf" class="btn btn-outline-light btn-sm" download aria-label="Download Daniel Krydynski vCard" title="Download my vCard contact file">
+                <i class="fa fa-address-card" aria-hidden="true"></i> vCard
+              </a>
+            </div>
+            <div class="mt-3" style="font-size:0.98rem;opacity:0.85;">
+              <i class="fa fa-clock-o mr-1" aria-hidden="true"></i> I typically reply within 24 hours.
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7 d-flex align-items-stretch">
+          <div class="w-100 d-flex flex-column justify-content-center p-4">
+            <div class="h4 text-center mb-4 title font-weight-bold" style="color:#222;letter-spacing:1px;">Get in Touch</div>
+            <form action="https://formsubmit.co/dkrydynski@gmail.com" method="POST" id="contactForm" novalidate class="needs-validation" role="form" aria-labelledby="contactFormTitle">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_next" value="thankyou.html">
+              <div id="contactFormTitle" class="sr-only" tabindex="-1">Contact Form</div>
+              <div class="row">
                 <div class="col-md-6">
-                  <div class="card-body ">
-                  <img src="images/daniel-2.jpg" class="rounded-circle" />
+                  <div class="form-group">
+                    <label for="name" class="font-weight-bold">Name</label>
+                    <input type="text" class="form-control rounded-pill px-4" id="name" name="name" required>
+                    <div class="invalid-feedback">Please enter your name.</div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="card-body">
-                    <p class="mb-0"><strong>Phone</strong></p>
-                    <p class="pb-2">573.803.9136</p>
-                    <p class="mb-0"><strong>Email</strong></p>
-                    <p><a href="mailto:danielkrydynski@gmail.com">danielkrydynski@gmail.com</a></p>
+                  <div class="form-group">
+                    <label for="email" class="font-weight-bold">Email</label>
+                    <input type="email" class="form-control rounded-pill px-4" id="email" name="email" required>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
                   </div>
                 </div>
               </div>
-            </div>
+              <div class="form-group">
+                <label for="message" class="font-weight-bold">Message</label>
+                <textarea class="form-control rounded px-4" id="message" name="message" rows="4" required style="resize:vertical;"></textarea>
+                <div class="invalid-feedback">Please enter your message.</div>
+              </div>
+              <div class="text-center">
+                <button type="submit" id="contactSubmitBtn" class="btn btn-primary btn-round btn-lg px-5 shadow-sm d-inline-flex align-items-center justify-content-center" style="letter-spacing:1px;transition:box-shadow 0.3s,transform 0.2s;position:relative;min-width:170px;" aria-live="polite">
+                  <span id="contactSubmitSpinner" class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true" style="display:none;"></span>
+                  <span id="contactSubmitText">Send Message</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div>
+    <style>
+      /* Modern theme switch styles */
+      .theme-switch {
+        width: 56px;
+        height: 32px;
+        background: #fff;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        display: flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s;
+        outline: none;
+        padding: 0;
+      }
+      .theme-switch:focus {
+        box-shadow: 0 0 0 3px #007bff44;
+      }
+      .theme-switch-track {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+      .theme-switch-icon {
+        width: 20px;
+        height: 20px;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+      .theme-switch-sun {
+        opacity: 1;
+      }
+      .theme-switch-moon {
+        opacity: 0.7;
+      }
+      .theme-switch-thumb {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 26px;
+        height: 26px;
+        background: linear-gradient(135deg, #e4e6eb 60%, #fff 100%);
+        border-radius: 50%;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        transition: left 0.22s cubic-bezier(.4,0,.2,1), background 0.2s;
+        z-index: 2;
+      }
+      body.dark-mode .theme-switch {
+        background: #23272b;
+      }
+      body.dark-mode .theme-switch-thumb {
+        background: linear-gradient(135deg, #23272b 60%, #3399ff 100%);
+      }
+      body.dark-mode .theme-switch-sun {
+        opacity: 0.7;
+      }
+      body.dark-mode .theme-switch-moon {
+        opacity: 1;
+      }
+      .theme-switch[aria-pressed="true"] .theme-switch-thumb {
+        left: 27px;
+      }
+  /* Subtle animation for form fields and button */
+  #contactForm .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.15);
+    transition: box-shadow 0.3s;
+  }
+  #contactForm button[type="submit"]:hover, #contactForm button[type="submit"]:focus {
+    box-shadow: 0 4px 16px rgba(0,123,255,0.18);
+    transform: translateY(-2px) scale(1.03);
+  }
+  /* Spinner for contact form submit button */
+  #contactSubmitBtn[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  #contactSubmitSpinner {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+  /* Modern hover/focus effects for all buttons and links */
+  a.btn, button.btn, .btn {
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
+    outline: none;
+  }
+  a.btn:hover, a.btn:focus, button.btn:hover, button.btn:focus, .btn:hover, .btn:focus {
+    box-shadow: 0 4px 18px rgba(0,123,255,0.18), 0 1.5px 6px rgba(0,0,0,0.08);
+    transform: translateY(-2px) scale(1.04);
+    filter: brightness(1.08);
+    text-decoration: none;
+  }
+  a.btn-outline-light:hover, a.btn-outline-light:focus {
+    background: #fff !important;
+    color: #007bff !important;
+    border-color: #fff !important;
+  }
+  a, a:focus {
+    transition: color 0.18s, text-decoration 0.18s;
+    outline: none;
+  }
+  a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  @media (max-width: 991.98px) {
+    #contact .card { padding: 1.5rem 0.5rem; }
+    #contact .row.no-gutters { flex-direction: column; }
+    #contact .col-lg-5, #contact .col-lg-7 { max-width: 100%; flex: 0 0 100%; }
+    #contact .col-lg-5, #contact .col-lg-7 { border-radius: 1rem 1rem 0 0 !important; }
+    #contact .col-lg-5 { margin-bottom: 1.5rem; }
+  }
+</style>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
     <footer class="footer">
-      <div class="h4 title text-center">Anthony Barnett</div>
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="Back to Top" style="display:none;position:fixed;bottom:40px;right:40px;z-index:9999;background:#007bff;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;transition:background 0.2s;">
+      &uarr;
+    </button>
+      <div class="h4 title text-center">Daniel Krydynski</div>
       <div class="text-center text-muted">
-        <p>&copy; Creative CV. All rights reserved.<br>Design - <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
+        <p>&copy; 2025 Daniel Krydynski. All rights reserved.<br>Design based on <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
       </div>
     </footer>
     <script src="js/core/jquery.3.2.1.min.js"></script>
@@ -587,5 +871,215 @@
     <script src="js/now-ui-kit.js?v=1.1.0"></script>
     <script src="js/aos.js"></script>
     <script src="scripts/main.js"></script>
+    <script>
+    // Scroll Progress Bar functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      var progressBar = document.getElementById('scrollProgressBar');
+      function updateProgressBar() {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = progress + '%';
+      }
+      window.addEventListener('scroll', updateProgressBar);
+      window.addEventListener('resize', updateProgressBar);
+      updateProgressBar();
+    });
+    </script>
+    <script>
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = 'block';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    };
+    backToTop.onclick = function() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    };
+
+    // Print Resume Button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      var printBtn = document.getElementById('printResumeBtn');
+      var downloadBtn = document.querySelector('a.btn.btn-primary[download]');
+      if (printBtn && downloadBtn) {
+        printBtn.addEventListener('click', function() {
+          // Use the same file as the Download CV button
+          var pdfUrl = downloadBtn.getAttribute('href');
+          if (pdfUrl) {
+            var win = window.open(pdfUrl, '_blank');
+            if (win) {
+              win.focus();
+              setTimeout(function() {
+                win.print();
+              }, 800);
+            }
+          }
+        });
+      }
+    });
+
+    // Animate skill bars using IntersectionObserver
+    document.addEventListener('DOMContentLoaded', function() {
+      const bars = document.querySelectorAll('.progress-bar');
+      if ('IntersectionObserver' in window) {
+        const observer = new window.IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+              const bar = entry.target;
+              const width = bar.getAttribute('style').match(/width: (\d+)%/);
+              if (width) {
+                bar.classList.add('animated');
+                bar.style.transition = 'none';
+                bar.style.width = '0%';
+                setTimeout(function() {
+                  bar.style.transition = 'width 2s';
+                  bar.style.width = width[1] + '%';
+                }, 100);
+              }
+              observer.unobserve(bar);
+            }
+          });
+        }, { threshold: 0.3 }); // Trigger when 30% visible
+        bars.forEach(function(bar) {
+          observer.observe(bar);
+        });
+      } else {
+        // Fallback for browsers without IntersectionObserver
+        function animateSkillBarsFallback() {
+          bars.forEach(function(bar) {
+            if (!bar.classList.contains('animated')) {
+              const rect = bar.getBoundingClientRect();
+              if (
+                rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom > 0 &&
+                rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                rect.right > 0
+              ) {
+                const width = bar.getAttribute('style').match(/width: (\d+)%/);
+                if (width) {
+                  bar.classList.add('animated');
+                  bar.style.transition = 'none';
+                  bar.style.width = '0%';
+                  setTimeout(function() {
+                    bar.style.transition = 'width 2s';
+                    bar.style.width = width[1] + '%';
+                  }, 100);
+                }
+              }
+            }
+          });
+        }
+        window.addEventListener('scroll', animateSkillBarsFallback);
+        window.addEventListener('load', animateSkillBarsFallback);
+      }
+    });
+
+    // Contact form client-side validation (optional, for UX)
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('contactForm');
+      var submitBtn = document.getElementById('contactSubmitBtn');
+      var submitSpinner = document.getElementById('contactSubmitSpinner');
+      var submitText = document.getElementById('contactSubmitText');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          var isValid = true;
+          var formControls = form.querySelectorAll('.form-control');
+          formControls.forEach(function(control) {
+            if (!control.value.trim()) {
+              isValid = false;
+              control.classList.add('is-invalid');
+            } else {
+              control.classList.remove('is-invalid');
+            }
+          });
+          if (!isValid) {
+            e.preventDefault();
+            if (submitBtn && submitSpinner && submitText) {
+              submitBtn.disabled = false;
+              submitSpinner.style.display = 'none';
+              submitText.textContent = 'Send Message';
+            }
+            return;
+          }
+          // Show spinner and disable button
+          if (submitBtn && submitSpinner && submitText) {
+            submitBtn.disabled = true;
+            submitSpinner.style.display = 'inline-block';
+            submitText.textContent = 'Sending...';
+          }
+          // Do NOT call e.preventDefault() if valid; allow normal POST
+        });
+        // Remove validation on input
+        var formControls = form.querySelectorAll('.form-control');
+        formControls.forEach(function(control) {
+          control.addEventListener('input', function() {
+            control.classList.remove('is-invalid');
+          });
+        });
+      }
+    });
+    // Copy Email Button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      var copyBtn = document.getElementById('copyEmailBtn');
+      var tooltip = document.getElementById('copyEmailTooltip');
+      if (copyBtn && tooltip) {
+        copyBtn.addEventListener('click', function() {
+          var email = 'danielkrydynski@gmail.com';
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(email).then(function() {
+              tooltip.style.display = 'inline-block';
+              setTimeout(function() { tooltip.style.display = 'none'; }, 1500);
+            });
+          } else {
+            // Fallback for older browsers
+            var tempInput = document.createElement('input');
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            tooltip.style.display = 'inline-block';
+            setTimeout(function() { tooltip.style.display = 'none'; }, 1500);
+          }
+        });
+        // Keyboard accessibility: show tooltip on Enter/Space
+        copyBtn.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            copyBtn.click();
+          }
+        });
+      }
+    });
+    // Modern Light/Dark Mode Toggle Switch
+    (function() {
+      const toggleBtn = document.getElementById('themeToggle');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      function setTheme(dark) {
+        document.body.classList.toggle('dark-mode', dark);
+        toggleBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      }
+      // Initial theme
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        setTheme(true);
+      } else {
+        setTheme(false);
+      }
+      toggleBtn.addEventListener('click', function() {
+        setTheme(!document.body.classList.contains('dark-mode'));
+      });
+      // Keyboard accessibility: toggle on Enter/Space
+      toggleBtn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setTheme(!document.body.classList.contains('dark-mode'));
+        }
+      });
+    })();
+    </script>
   </body>
 </html>
