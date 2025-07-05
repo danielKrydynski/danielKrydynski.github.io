@@ -142,10 +142,15 @@
           <div class="h2 title">Daniel Krydynski</div>
           <p class="category text-white">Web Developer, UI/UX Designer,  Game Developer</p>
           <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a>
-          <a class="btn btn-primary mr-2" href="assets/Daniel-Krydynski-Resume.pdf" target="_blank" data-aos="zoom-in" data-aos-anchor="data-aos-anchor" download>Download CV</a>
-          <button id="printResumeBtn" class="btn btn-outline-primary" type="button" data-aos="zoom-in" data-aos-anchor="data-aos-anchor" style="vertical-align:middle;">
-            <i class="fa fa-print" aria-hidden="true"></i> Print Resume
-          </button>
+          <div class="mt-2 d-flex flex-row justify-content-center align-items-center" style="gap:0.5rem;">
+            <a id="resumeActionBtn" href="assets/Daniel-Krydynski-Resume.pdf" target="_blank" download title="Download CV (PDF)" class="resume-icon-btn">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <span class="sr-only">Download CV (PDF)</span>
+            </a>
+            <button id="resumePrintBtn" type="button" aria-label="Print Resume PDF" title="Print Resume" class="resume-icon-btn">
+              <i class="fa fa-print" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
       <div class="section">
@@ -725,6 +730,50 @@
   </div>
 </div>
     <style>
+      /* Resume icon button styles for visibility and contrast */
+      .resume-icon-btn {
+        padding: 0.25rem 0.6rem;
+        border-radius: 1.2rem;
+        background: rgba(255,255,255,0.92);
+        border: 1.5px solid #007bff;
+        box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+        opacity: 1;
+        transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s, transform 0.18s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 1.08em;
+        color: #007bff !important;
+        outline: none;
+        position: relative;
+      }
+      .resume-icon-btn:hover, .resume-icon-btn:focus {
+        background: #007bff;
+        color: #fff !important;
+        border-color: #0056b3;
+        box-shadow: 0 4px 18px rgba(0,123,255,0.18), 0 1.5px 6px rgba(0,0,0,0.08);
+        transform: translateY(-2px) scale(1.04);
+        text-decoration: none;
+      }
+      .resume-icon-btn i {
+        font-size: 1.08em;
+        transition: color 0.18s;
+      }
+      body.dark-mode .resume-icon-btn {
+        background: rgba(34,40,49,0.98);
+        color: #66b3ff !important;
+        border: 1.5px solid #3399ff;
+      }
+      body.dark-mode .resume-icon-btn:hover, body.dark-mode .resume-icon-btn:focus {
+        background: #3399ff;
+        color: #23272b !important;
+        border-color: #66b3ff;
+      }
+      .resume-icon-btn:active {
+        filter: brightness(0.97);
+        transform: scale(0.98);
+      }
+      /* End resume icon button styles */
       /* Modern theme switch styles */
       .theme-switch {
         width: 56px;
@@ -900,13 +949,12 @@
       window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
-    // Print Resume Button functionality
+    // Combined Download/Print Resume functionality
     document.addEventListener('DOMContentLoaded', function() {
-      var printBtn = document.getElementById('printResumeBtn');
-      var downloadBtn = document.querySelector('a.btn.btn-primary[download]');
+      var printBtn = document.getElementById('resumePrintBtn');
+      var downloadBtn = document.getElementById('resumeActionBtn');
       if (printBtn && downloadBtn) {
         printBtn.addEventListener('click', function() {
-          // Use the same file as the Download CV button
           var pdfUrl = downloadBtn.getAttribute('href');
           if (pdfUrl) {
             var win = window.open(pdfUrl, '_blank');
