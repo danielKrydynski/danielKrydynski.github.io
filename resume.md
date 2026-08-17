@@ -6,8 +6,7 @@ Web Developer, UI/UX Designer, and Game Developer with a strong foundation in bo
 
 ## PROFESSIONAL EXPERIENCE
 
-**Digital Technician**  
-*Perio Protect* | August 2025 - July 2026  
+**Digital Technician**  \n*Perio Protect* | August 2025 - Aug 2026  
 - Engineered and streamlined the end-to-end digital manufacturing pipeline for dental devices, reducing lead time from raw dental scan data to a finalized 3D printable model.  
 - Implemented and managed a centralized library of standardized 3D dental models, utilizing Scan to Model, Meshmixer, and proprietary AI sealing software from HeyGears to ensure consistency, reusability, and rapid design iteration across all custom patient devices.  
 - Developed and documented new procedural protocols for integrating the 3D model library into the existing workflow, standardizing design practices and facilitating quicker onboarding for new technicians.  
