@@ -127,13 +127,15 @@ a:hover, a:focus {
   border-bottom: 1px solid var(--dk-border-subtle);
 }
 
-.navbar-brand {
+.navbar-brand,
+body.dark-mode .navbar-brand {
   font-weight: 600;
   letter-spacing: -0.02em;
-  background: linear-gradient(90deg, var(--dk-indigo-hover), var(--dk-cyan));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, var(--dk-indigo-hover), var(--dk-cyan)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
 }
 
 .nav-link {
@@ -398,6 +400,10 @@ a:hover, a:focus {
 
 .dk-project-tile i {
   font-size: 2.6rem;
+  transition: transform 0.25s ease;
+}
+
+.dk-project-tile i::before {
   background: linear-gradient(135deg, var(--dk-indigo-hover), var(--dk-cyan));
   -webkit-background-clip: text;
   background-clip: text;
