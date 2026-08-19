@@ -605,3 +605,57 @@ a.credit {
     transition: none !important;
   }
 }
+
+/* ---------- Tooltip contrast (dark theme) ---------- */
+.tooltip-inner {
+  background-color: rgb(51, 51, 51) !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+.bs-tooltip-top .arrow::before,
+.tooltip[x-placement^="top"] .arrow::before {
+  border-top-color: rgb(51, 51, 51) !important;
+}
+
+.bs-tooltip-bottom .arrow::before,
+.tooltip[x-placement^="bottom"] .arrow::before {
+  border-bottom-color: rgb(51, 51, 51) !important;
+}
+
+.bs-tooltip-left .arrow::before,
+.tooltip[x-placement^="left"] .arrow::before {
+  border-left-color: rgb(51, 51, 51) !important;
+}
+
+.bs-tooltip-right .arrow::before,
+.tooltip[x-placement^="right"] .arrow::before {
+  border-right-color: rgb(51, 51, 51) !important;
+}
+
+/* ---------- Hero CTA button centering ----------
+   Adapted from DevTools: flex-centering for the zoom-in animated hero
+   buttons. Scoped to .page-header so portfolio tiles (which also use
+   data-aos="zoom-in") are untouched, and the indigo fill on .btn-primary
+   is preserved. */
+.page-header .btn[data-aos^="zoom"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: 38px;
+  padding: 0 22px;
+  line-height: 16.1953px;
+  border-radius: 50px;
+  text-transform: none;
+  font-size: 12px;
+  letter-spacing: normal;
+  font-weight: 500;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+.page-header .btn-outline-light[data-aos^="zoom"] {
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
