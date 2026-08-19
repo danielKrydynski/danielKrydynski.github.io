@@ -1,0 +1,594 @@
+/* ========================================================================
+ * Daniel Krydynski — "Dark Precision + Creative Spark" theme
+ * Layers over Bootstrap 4 + Now UI Kit. Load AFTER main.css.
+ * Palette: Linear-style dark canvas + Electric Indigo (dev trust)
+ *          + Cyan (creative spark). Typography: Inter + JetBrains Mono.
+ * ======================================================================== */
+
+:root {
+  /* Base surfaces (Linear-style luminance stepping) */
+  --dk-bg: #08090a;
+  --dk-panel: #0f1011;
+  --dk-surface: #191a1b;
+  --dk-surface-2: #28282c;
+
+  /* Text */
+  --dk-text: #f7f8f8;
+  --dk-text-2: #d0d6e0;
+  --dk-text-3: #8a8f98;
+  --dk-text-4: #62666d;
+
+  /* Accents: dev trust + creative spark */
+  --dk-indigo: #6366f1;
+  --dk-indigo-hover: #828fff;
+  --dk-cyan: #06b6d4;
+
+  /* Borders */
+  --dk-border-subtle: rgba(255, 255, 255, 0.05);
+  --dk-border: rgba(255, 255, 255, 0.08);
+
+  /* Fonts */
+  --dk-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --dk-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--dk-bg) !important;
+  color: var(--dk-text-2) !important;
+  font-family: var(--dk-font) !important;
+  font-feature-settings: "cv01", "ss03";
+  letter-spacing: -0.011em;
+}
+
+h1, h2, h3, h4, h5, h6,
+.title, .navbar-brand, .btn {
+  font-family: var(--dk-font) !important;
+}
+
+a {
+  color: var(--dk-indigo-hover);
+  transition: color 0.18s ease;
+}
+
+a:hover, a:focus {
+  color: var(--dk-cyan);
+}
+
+/* Dark scrollbar to match dev-environment feel */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--dk-panel); }
+::-webkit-scrollbar-thumb { background: var(--dk-surface-2); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dk-indigo); }
+
+::selection {
+  background: rgba(99, 102, 241, 0.4);
+  color: var(--dk-text);
+}
+
+/* ---------- Surfaces ---------- */
+.card,
+.card-body,
+.section,
+.footer,
+.thankyou-card,
+.bg-light,
+.rounded-left {
+  background: var(--dk-panel) !important;
+  color: var(--dk-text-2) !important;
+  border-color: var(--dk-border) !important;
+}
+
+.card {
+  border: 1px solid var(--dk-border-subtle) !important;
+  border-radius: 8px !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  border-color: var(--dk-border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.text-muted, .category {
+  color: var(--dk-text-3) !important;
+}
+
+.title {
+  color: var(--dk-text) !important;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* Section titles: mono eyebrow flair above each heading */
+.section .h4.title.text-center {
+  position: relative;
+  color: var(--dk-text) !important;
+}
+
+.section .h4.title.text-center::before {
+  content: "//";
+  font-family: var(--dk-mono);
+  color: var(--dk-cyan);
+  margin-right: 0.5rem;
+  font-weight: 400;
+}
+
+/* ---------- Navbar ---------- */
+.navbar.bg-primary,
+.navbar.navbar-transparent {
+  background: rgba(8, 9, 10, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--dk-border-subtle);
+}
+
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--dk-indigo-hover), var(--dk-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+  color: var(--dk-text-2) !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.18s ease;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: var(--dk-text) !important;
+}
+
+.navbar-toggler-bar {
+  background: var(--dk-text-2) !important;
+}
+
+/* ---------- Hero / page header ---------- */
+.page-header {
+  background: var(--dk-bg) !important;
+}
+
+.page-header[filter-color="green"] {
+  background: var(--dk-bg) !important;
+}
+
+/* Replace the stock parallax photo with a dark engineering canvas:
+   subtle isometric grid + indigo/cyan glow */
+.page-header .page-header-image {
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 0%, rgba(99, 102, 241, 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 85% 15%, rgba(6, 182, 212, 0.12), transparent 60%),
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+    var(--dk-bg) !important;
+  background-size: auto, auto, 42px 42px, 42px 42px, auto !important;
+}
+
+.page-header .title {
+  color: var(--dk-text) !important;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.page-header .category.text-white {
+  color: var(--dk-text-3) !important;
+  font-family: var(--dk-mono);
+  font-size: 0.95rem;
+}
+
+/* Typing cursor for the terminal role line (JS adds .typing) */
+.hero-cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1.05em;
+  background: var(--dk-cyan);
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  animation: dk-blink 1s steps(1) infinite;
+}
+
+@keyframes dk-blink {
+  50% { opacity: 0; }
+}
+
+/* Hero terminal card */
+.hero-terminal {
+  background: rgba(15, 16, 17, 0.85);
+  border: 1px solid var(--dk-border);
+  border-radius: 8px;
+  font-family: var(--dk-mono);
+  font-size: 0.85rem;
+  color: var(--dk-text-3);
+  text-align: left;
+  max-width: 460px;
+  margin: 1.5rem auto 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.hero-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--dk-border-subtle);
+}
+
+.hero-terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dk-surface-2);
+}
+
+.hero-terminal-dot:nth-child(1) { background: #ff5f57; }
+.hero-terminal-dot:nth-child(2) { background: #febc2e; }
+.hero-terminal-dot:nth-child(3) { background: #28c840; }
+
+.hero-terminal-title {
+  margin-left: 8px;
+  color: var(--dk-text-4);
+  font-size: 0.78rem;
+}
+
+.hero-terminal-body {
+  padding: 14px 16px 16px;
+  line-height: 1.75;
+}
+
+.hero-terminal-body .prompt {
+  color: var(--dk-cyan);
+}
+
+.hero-terminal-body .cmd {
+  color: var(--dk-text-2);
+}
+
+.hero-terminal-body .out {
+  color: var(--dk-text-3);
+}
+
+.hero-terminal-body .accent {
+  color: var(--dk-indigo-hover);
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary,
+.btn.btn-primary {
+  background: var(--dk-indigo) !important;
+  border-color: var(--dk-indigo) !important;
+  color: #fff !important;
+  border-radius: 50px !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: var(--dk-indigo-hover) !important;
+  border-color: var(--dk-indigo-hover) !important;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35) !important;
+}
+
+.btn-outline-light,
+.btn.btn-outline-light,
+.btn-default,
+.btn.btn-default {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--dk-border) !important;
+  color: var(--dk-text-2) !important;
+  border-radius: 50px !important;
+  font-weight: 500;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.btn-outline-light:hover, .btn-outline-light:focus,
+.btn-default:hover, .btn-default:focus {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: var(--dk-text) !important;
+}
+
+/* GitHub / LinkedIn icon buttons */
+.btn-icon.btn-default {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--dk-border) !important;
+  color: var(--dk-text-2) !important;
+}
+
+.btn-icon.btn-default:hover {
+  background: var(--dk-indigo) !important;
+  border-color: var(--dk-indigo) !important;
+  color: #fff !important;
+}
+
+/* ---------- Experience / education side panels ---------- */
+.cc-experience .bg-primary,
+.cc-education .bg-primary {
+  background: linear-gradient(150deg, var(--dk-surface), var(--dk-panel)) !important;
+  border-right: 1px solid var(--dk-border-subtle);
+}
+
+.cc-experience-header .h5,
+.cc-education-header .h5 {
+  color: var(--dk-text) !important;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.cc-experience-header p,
+.cc-education-header p {
+  color: var(--dk-cyan) !important;
+  font-family: var(--dk-mono);
+  font-size: 0.8rem;
+}
+
+/* ---------- Skills: progress bars → keep bars but restyle ---------- */
+.progress-container .progress-badge {
+  color: var(--dk-text-2) !important;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.progress-value {
+  color: var(--dk-text-3) !important;
+  font-family: var(--dk-mono);
+  font-size: 0.78rem;
+}
+
+.progress {
+  background: var(--dk-surface) !important;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-primary,
+.progress-bar {
+  background: linear-gradient(90deg, var(--dk-indigo), var(--dk-cyan)) !important;
+}
+
+/* Skill glitch easter egg (JS toggles .glitching on random hover) */
+.progress-container.glitching .progress-badge {
+  animation: dk-glitch 0.3s steps(2) 2;
+}
+
+@keyframes dk-glitch {
+  0%   { transform: translateX(0);    color: var(--dk-text-2); }
+  25%  { transform: translateX(-2px); color: var(--dk-cyan); }
+  50%  { transform: translateX(2px);  color: var(--dk-indigo-hover); }
+  75%  { transform: translateX(-1px); color: var(--dk-cyan); }
+  100% { transform: translateX(0);    color: var(--dk-text-2); }
+}
+
+/* ---------- Portfolio ---------- */
+.nav-pills-primary .nav-link {
+  color: var(--dk-text-3) !important;
+}
+
+.nav-pills-primary .nav-link.active {
+  background: var(--dk-indigo) !important;
+  color: #fff !important;
+}
+
+/* Project tiles: CSS-art placeholders until real screenshots land */
+.dk-project-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  height: 240px;
+  border-radius: 8px 8px 0 0;
+  font-family: var(--dk-mono);
+  color: var(--dk-text-2);
+  overflow: hidden;
+  border: 1px solid var(--dk-border-subtle);
+  border-bottom: none;
+}
+
+.dk-project-tile i {
+  font-size: 2.6rem;
+  background: linear-gradient(135deg, var(--dk-indigo-hover), var(--dk-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dk-project-tile .dk-tile-label {
+  font-size: 0.8rem;
+  color: var(--dk-text-3);
+}
+
+.dk-tile-weather {
+  background:
+    radial-gradient(circle at 70% 25%, rgba(6, 182, 212, 0.25), transparent 45%),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    var(--dk-surface);
+  background-size: auto, 26px 26px, 26px 26px, auto;
+}
+
+.dk-tile-tasks {
+  background:
+    radial-gradient(circle at 25% 30%, rgba(99, 102, 241, 0.28), transparent 45%),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    var(--dk-surface);
+  background-size: auto, 26px 26px, 26px 26px, auto;
+}
+
+.dk-project-tile:hover i {
+  transform: translateY(-3px);
+  transition: transform 0.25s ease;
+}
+
+.cc-porfolio-image img {
+  border-radius: 8px 8px 0 0;
+}
+
+/* ---------- Contact section ---------- */
+#contact .card {
+  background: var(--dk-panel) !important;
+  border: 1px solid var(--dk-border) !important;
+}
+
+#contact .bg-primary.rounded-left {
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 0%, rgba(99, 102, 241, 0.3), transparent 65%),
+    var(--dk-surface) !important;
+  border-right: 1px solid var(--dk-border-subtle);
+}
+
+#contact .h4.title {
+  color: var(--dk-text) !important;
+}
+
+#contact .form-control {
+  background: var(--dk-surface) !important;
+  border: 1px solid var(--dk-border) !important;
+  color: var(--dk-text) !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+#contact .form-control:focus {
+  border-color: var(--dk-indigo) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+}
+
+#contact .form-control::placeholder {
+  color: var(--dk-text-4);
+}
+
+#contact label {
+  color: var(--dk-text-2) !important;
+  font-weight: 500;
+}
+
+#contact .btn-light {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--dk-border) !important;
+  color: var(--dk-text-2) !important;
+}
+
+/* ---------- Resume icon buttons ---------- */
+body .resume-icon-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--dk-border) !important;
+  color: var(--dk-indigo-hover) !important;
+}
+
+body .resume-icon-btn:hover, body .resume-icon-btn:focus {
+  background: var(--dk-indigo) !important;
+  border-color: var(--dk-indigo) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35);
+}
+
+/* ---------- Scroll progress bar + back-to-top ---------- */
+#scrollProgressBar {
+  background: linear-gradient(90deg, var(--dk-indigo), var(--dk-cyan)) !important;
+}
+
+#backToTop {
+  background: var(--dk-indigo) !important;
+  border: 1px solid var(--dk-border) !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#backToTop:hover {
+  background: var(--dk-indigo-hover) !important;
+  transform: translateY(-3px);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--dk-panel) !important;
+  border-top: 1px solid var(--dk-border-subtle);
+}
+
+.footer .title {
+  background: linear-gradient(90deg, var(--dk-indigo-hover), var(--dk-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer .text-muted p {
+  color: var(--dk-text-4) !important;
+  font-size: 0.85rem;
+}
+
+a.credit {
+  color: var(--dk-text-3) !important;
+}
+
+.dk-heart {
+  display: inline-block;
+  animation: dk-heartbeat 2.2s ease-in-out infinite;
+}
+
+@keyframes dk-heartbeat {
+  0%, 100% { transform: scale(1); }
+  10% { transform: scale(1.25); }
+  20% { transform: scale(1); }
+  30% { transform: scale(1.18); }
+  40% { transform: scale(1); }
+}
+
+/* ---------- Konami code particles ---------- */
+.dk-particle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  animation: dk-burst 1.4s ease-out forwards;
+}
+
+@keyframes dk-burst {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+}
+
+.dk-konami-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dk-surface);
+  border: 1px solid var(--dk-indigo);
+  color: var(--dk-text);
+  font-family: var(--dk-mono);
+  font-size: 0.85rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 50px;
+  z-index: 10000;
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.35);
+  animation: dk-toast-in 0.3s ease;
+}
+
+@keyframes dk-toast-in {
+  from { opacity: 0; transform: translate(-50%, 12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .dk-heart, .hero-cursor, .dk-particle, .dk-konami-toast {
+    animation: none !important;
+  }
+  .card, .btn {
+    transition: none !important;
+  }
+}

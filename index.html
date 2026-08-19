@@ -11,7 +11,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
-    <meta name="description" content="Creative CV is a HTML resume template for professionals. Built with Bootstrap 4, Now UI Kit and FontAwesome, this modern and responsive design template is perfect to showcase your portfolio, skils and experience."/>
+    <meta name="description" content="Daniel Krydynski — Web Developer, UI/UX Designer & Game Developer in the Greater St. Louis Area. Building interactive digital experiences with Python, JavaScript, Salesforce, Unity, and Blender."/>
+    <meta name="theme-color" content="#08090a"/>
     <meta property="og:title" content="Daniel Krydynski - Web Developer, UI/UX Designer, Game Developer"/>
     <meta property="og:description" content="Experienced Web Developer, UI/UX Designer, and Game Developer specializing in interactive digital experiences, Salesforce development, and 3D printing pipelines."/>
     <meta property="og:image" content="images/daniel.jpg"/>
@@ -21,11 +22,12 @@
     <meta name="twitter:title" content="Daniel Krydynski - Web Developer, UI/UX Designer, Game Developer"/>
     <meta name="twitter:description" content="Experienced Web Developer, UI/UX Designer, and Game Developer specializing in interactive digital experiences, Salesforce development, and 3D printing pipelines."/>
     <meta name="twitter:image" content="images/daniel.jpg"/>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/aos.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/theme.css" rel="stylesheet">
     <style>
       /* Dark mode styles */
       body.dark-mode {
@@ -101,8 +103,8 @@
   <body id="top">
     <!-- Scroll Progress Bar -->
     <div id="scrollProgressBar" aria-hidden="true"></div>
-    <!-- Modern Light/Dark Mode Toggle Switch -->
-    <div id="themeToggleWrapper" style="position:fixed;top:18px;right:18px;z-index:2000;">
+    <!-- Modern Light/Dark Mode Toggle Switch (hidden: site is dark-mode-only) -->
+    <div id="themeToggleWrapper" style="position:fixed;top:18px;right:18px;z-index:2000;display:none;">
       <button id="themeToggle" aria-label="Toggle light and dark mode" aria-pressed="false" type="button" class="theme-switch" tabindex="0">
         <span class="theme-switch-track">
           <span class="theme-switch-icon theme-switch-sun" aria-hidden="true">
@@ -147,11 +149,28 @@
       <div class="page-header-image" data-parallax="true" style="background-image: url('images/cc-bg-1.jpg');"></div>
       <div class="container">
         <div class="content-center">
-          <div class="cc-profile-image"><a href="#"><img loading="lazy" src="images/daniel.jpg" alt="Daniel Krydynski profile photo"/></a></div>
           <div class="h2 title">Daniel Krydynski</div>
-          <p class="category text-white">Web Developer, UI/UX Designer,  Game Developer</p>
-          <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a>
-          <a class="btn btn-outline-light smooth-scroll mr-2" href="#projects" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Let's Build Together</a>
+          <p class="category text-white"><span id="typingRoles"></span><span class="hero-cursor" aria-hidden="true"></span></p>
+          <div class="hero-terminal" aria-hidden="true">
+            <div class="hero-terminal-bar">
+              <span class="hero-terminal-dot"></span>
+              <span class="hero-terminal-dot"></span>
+              <span class="hero-terminal-dot"></span>
+              <span class="hero-terminal-title">daniel@portfolio:~</span>
+            </div>
+            <div class="hero-terminal-body">
+              <div><span class="prompt">$</span> <span class="cmd">whoami</span></div>
+              <div class="out">developer / designer / builder</div>
+              <div><span class="prompt">$</span> <span class="cmd">cat current_focus.txt</span></div>
+              <div class="out">web apps &bull; UI/UX &bull; <span class="accent">Blender automation</span> &bull; games</div>
+              <div><span class="prompt">$</span> <span class="cmd">./hire_me.sh</span> <span class="out">--status</span></div>
+              <div class="out accent">open to opportunities &#10003;</div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a>
+            <a class="btn btn-outline-light smooth-scroll mr-2" href="#projects" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Let's Build Together</a>
+          </div>
           <div class="mt-2 d-flex flex-row justify-content-center align-items-center" style="gap:0.5rem;">
             <a id="resumeActionBtn" href="assets/Daniel-Krydynski-Resume.pdf" target="_blank" download title="Download CV (PDF)" class="resume-icon-btn">
               <i class="fa fa-download" aria-hidden="true"></i>
@@ -538,7 +557,11 @@
             <div class="col-md-6">
               <div class="cc-porfolio-image img-raised" data-aos="zoom-in" data-aos-delay="0" data-aos-duration="700" data-aos-easing="ease-out-cubic">
                 <a href="https://danielkrydynski.github.io/weatherApp/" target="_blank" rel="noopener" title="View Weather App on GitHub Pages">
-                  <figure class="cc-effect"><img loading="lazy" src="images/project-1.jpg" alt="Weather App project screenshot"/>
+                  <figure class="cc-effect">
+                    <div class="dk-project-tile dk-tile-weather">
+                      <i class="fa fa-cloud" aria-hidden="true"></i>
+                      <span class="dk-tile-label">weather-app / live demo</span>
+                    </div>
                     <figcaption>
                       <div class="h4">Weather App Project</div>
                       <p>Web Development &bull; Live Demo</p>
@@ -550,7 +573,11 @@
             <div class="col-md-6">
               <div class="cc-porfolio-image img-raised" data-aos="zoom-in" data-aos-delay="100" data-aos-duration="700" data-aos-easing="ease-out-cubic">
                 <a href="https://danielkrydynski.github.io/taskManager/" target="_blank" rel="noopener" title="View Task Manager on GitHub Pages">
-                  <figure class="cc-effect"><img loading="lazy" src="images/project-2.jpg" alt="Task Manager project screenshot"/>
+                  <figure class="cc-effect">
+                    <div class="dk-project-tile dk-tile-tasks">
+                      <i class="fa fa-tasks" aria-hidden="true"></i>
+                      <span class="dk-tile-label">task-manager / live demo</span>
+                    </div>
                     <figcaption>
                       <div class="h4">Task Manager Project</div>
                       <p>Web Development &bull; Live Demo</p>
@@ -685,7 +712,6 @@
       <div class="row no-gutters align-items-stretch">
         <div class="col-lg-5 d-flex align-items-stretch bg-primary text-white rounded-left" style="min-height: 100%;">
           <div class="w-100 d-flex flex-column justify-content-center align-items-center p-4 text-center">
-            <img loading="lazy" src="images/daniel-2.jpg" class="rounded-circle mb-3 border border-white" alt="Daniel Krydynski alternate profile photo" style="width:120px;height:120px;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,0.18);">
             <div class="h4 mb-2 font-weight-bold" style="letter-spacing:1px;">Contact Info</div>
             <p class="mb-3" style="font-size:1rem;opacity:0.85;">Feel free to reach out by phone, email, or connect with me on social media. I look forward to hearing from you!</p>
             <p class="mb-1"><i class="fa fa-phone mr-2"></i> <a href="tel:5738039136" style="color:#fff;text-decoration:underline;">573.803.9136</a></p>
@@ -915,16 +941,8 @@
     #contact .col-lg-5 { margin-bottom: 1.5rem; }
   }
 </style>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</div>
     <footer class="footer">
     <!-- Back to Top Button -->
     <button id="backToTop" title="Back to Top" style="display:none;position:fixed;bottom:40px;right:40px;z-index:9999;background:#007bff;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;transition:background 0.2s;">
@@ -932,7 +950,8 @@
     </button>
       <div class="h4 title text-center">Daniel Krydynski</div>
       <div class="text-center text-muted">
-        <p>&copy; 2025 Daniel Krydynski. All rights reserved.<br>Design based on <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
+        <p>Built with <span class="dk-heart">&#10084;&#65039;</span> and <i class="fa fa-code" aria-hidden="true" style="color:#6366f1;"></i> in the Greater St. Louis Area<br>
+        &copy; 2026 Daniel Krydynski. All rights reserved. &bull; Design based on <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
       </div>
     </footer>
     <script src="js/core/jquery.3.2.1.min.js"></script>
@@ -1122,33 +1141,121 @@
         });
       }
     });
-    // Modern Light/Dark Mode Toggle Switch
+    // Dark-mode-only theme (toggle hidden; dark is always on)
     (function() {
       const toggleBtn = document.getElementById('themeToggle');
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       function setTheme(dark) {
         document.body.classList.toggle('dark-mode', dark);
-        toggleBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+        if (toggleBtn) toggleBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
         localStorage.setItem('theme', dark ? 'dark' : 'light');
       }
-      // Initial theme
-      const saved = localStorage.getItem('theme');
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        setTheme(true);
-      } else {
-        setTheme(false);
-      }
-      toggleBtn.addEventListener('click', function() {
-        setTheme(!document.body.classList.contains('dark-mode'));
-      });
-      // Keyboard accessibility: toggle on Enter/Space
-      toggleBtn.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
+      setTheme(true);
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
           setTheme(!document.body.classList.contains('dark-mode'));
+        });
+        // Keyboard accessibility: toggle on Enter/Space
+        toggleBtn.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setTheme(!document.body.classList.contains('dark-mode'));
+          }
+        });
+      }
+    })();
+    </script>
+    <script>
+    // ===== "Dark Precision + Creative Spark" interactions =====
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Typing roles animation (hero) ---
+      var rolesEl = document.getElementById('typingRoles');
+      if (rolesEl) {
+        var roles = [
+          'Web Developer',
+          'UI/UX Designer',
+          'Game Developer',
+          'Blender Automation Tinkerer'
+        ];
+        var roleIdx = 0, charIdx = 0, deleting = false;
+        var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+          rolesEl.textContent = roles.join(' \u2022 ');
+        } else {
+          (function tick() {
+            var current = roles[roleIdx];
+            if (!deleting) {
+              charIdx++;
+              rolesEl.textContent = current.slice(0, charIdx);
+              if (charIdx === current.length) {
+                deleting = true;
+                setTimeout(tick, 2000);
+                return;
+              }
+              setTimeout(tick, 70);
+            } else {
+              charIdx--;
+              rolesEl.textContent = current.slice(0, charIdx);
+              if (charIdx === 0) {
+                deleting = false;
+                roleIdx = (roleIdx + 1) % roles.length;
+                setTimeout(tick, 350);
+                return;
+              }
+              setTimeout(tick, 35);
+            }
+          })();
+        }
+      }
+
+      // --- Easter egg: Konami code particle burst ---
+      var konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      var kPos = 0;
+      document.addEventListener('keydown', function(e) {
+        var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+        if (key === konami[kPos]) {
+          kPos++;
+          if (kPos === konami.length) {
+            kPos = 0;
+            konamiBurst();
+          }
+        } else {
+          kPos = (key === konami[0]) ? 1 : 0;
         }
       });
-    })();
+      function konamiBurst() {
+        var colors = ['#6366f1', '#06b6d4', '#828fff', '#f7f8f8'];
+        var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        for (var i = 0; i < 60; i++) {
+          var p = document.createElement('div');
+          p.className = 'dk-particle';
+          var angle = Math.random() * Math.PI * 2;
+          var dist = 120 + Math.random() * 260;
+          p.style.left = cx + 'px';
+          p.style.top = cy + 'px';
+          p.style.background = colors[Math.floor(Math.random() * colors.length)];
+          p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+          p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+          document.body.appendChild(p);
+          setTimeout(function(el) { return function() { el.remove(); }; }(p), 1500);
+        }
+        var toast = document.createElement('div');
+        toast.className = 'dk-konami-toast';
+        toast.textContent = '\u2191\u2191\u2193\u2193\u2190\u2192\u2190\u2192BA \u2014 30 lives granted. Now go ship something.';
+        document.body.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 3500);
+      }
+
+      // --- Easter egg: subtle skill-bar glitch on hover (~25% chance) ---
+      var containers = document.querySelectorAll('.progress-container');
+      containers.forEach(function(c) {
+        c.addEventListener('mouseenter', function() {
+          if (Math.random() < 0.25 && !c.classList.contains('glitching')) {
+            c.classList.add('glitching');
+            setTimeout(function() { c.classList.remove('glitching'); }, 700);
+          }
+        });
+      });
+    });
     </script>
   </body>
 </html>
