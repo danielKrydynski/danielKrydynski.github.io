@@ -467,8 +467,15 @@ body.dark-mode .navbar-brand {
 }
 
 #contact .form-control:focus {
-  border-color: var(--dk-indigo) !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+  border: 1px solid var(--dk-indigo) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
+}
+
+.resume-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px !important;
 }
 
 #contact .form-control::placeholder {
