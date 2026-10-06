@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ouroboros: A Recursive Dev Loop Where AI Improves Code — Safely | Daniel Krydynski</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="A walkthrough of Ouroboros, an open-source harness that lets AI agents find work, do the work, check the work — and only then ask a human to merge. Including the honest field notes: the reviewer that approved a destructive change, and the guard that cannot be argued with."/>
+    <link rel="canonical" href="https://danielkrydynski.github.io/ouroboros.html"/>
+    <meta property="og:title" content="Ouroboros: A Recursive Dev Loop Where AI Improves Code — Safely"/>
+    <meta property="og:description" content="AI agents that find work, do the work, and check the work — with a human merge gate and deterministic safety rails. Field notes from real runs included."/>
+    <meta property="og:url" content="https://danielkrydynski.github.io/ouroboros.html"/>
+    <meta property="og:type" content="article"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/theme.css" rel="stylesheet">
+    <style>
+      body { background: #181a1b; color: #e4e6eb; font-family: 'Inter', sans-serif; }
+      .article-nav { background: rgba(24,26,27,.95); border-bottom: 1px solid #2c2f33; }
+      .article-nav a { color: #e4e6eb; }
+      .article-hero { padding: 7rem 0 3rem; text-align: center; }
+      .article-hero .kicker { color: #7dd3fc; text-transform: uppercase; letter-spacing: .15em; font-size: .8rem; font-weight: 600; }
+      .article-hero h1 { font-weight: 600; font-size: 2.4rem; line-height: 1.2; margin: 1rem auto; max-width: 820px; }
+      .article-hero .lede { color: #aeb4bd; font-size: 1.15rem; max-width: 700px; margin: 0 auto 1.5rem; }
+      .article-meta { color: #8b9097; font-size: .9rem; }
+      .article-meta .tag { display: inline-block; background: #23272b; border: 1px solid #34383d; border-radius: 999px; padding: .15rem .8rem; margin: .15rem; font-size: .8rem; color: #c9ced6; }
+      .article-body { max-width: 760px; margin: 0 auto; padding: 0 1.25rem 4rem; font-size: 1.08rem; line-height: 1.75; color: #d7dbe0; }
+      .article-body h2 { font-size: 1.7rem; font-weight: 600; margin: 3rem 0 1rem; color: #fff; }
+      .article-body h3 { font-size: 1.3rem; font-weight: 600; margin: 2.2rem 0 .8rem; color: #fff; }
+      .article-body p { margin-bottom: 1.2rem; }
+      .article-body a { color: #7dd3fc; }
+      .article-body ul, .article-body ol { margin-bottom: 1.2rem; padding-left: 1.6rem; }
+      .article-body li { margin-bottom: .5rem; }
+      .article-body blockquote { border-left: 3px solid #007bff; padding: .5rem 1.2rem; margin: 1.5rem 0; color: #aeb4bd; background: #1e2124; border-radius: 0 .4rem .4rem 0; }
+      .article-body code { font-family: 'JetBrains Mono', monospace; font-size: .88em; background: #23272b; padding: .15em .4em; border-radius: .3rem; color: #ffd479; }
+      .article-body pre { background: #101214; border: 1px solid #2c2f33; border-radius: .5rem; padding: 1.1rem 1.3rem; overflow-x: auto; margin: 1.5rem 0; }
+      .article-body pre code { background: none; padding: 0; color: #d7dbe0; }
+      .article-body hr { border-color: #2c2f33; margin: 3rem 0; }
+      .article-body table { width: 100%; margin-bottom: 1.5rem; font-size: .95rem; }
+      .article-body th, .article-body td { border: 1px solid #2c2f33; padding: .55rem .8rem; text-align: left; }
+      .article-body th { background: #23272b; }
+      .article-cta { max-width: 760px; margin: 0 auto 4rem; padding: 2rem; background: #1e2124; border: 1px solid #2c2f33; border-radius: .75rem; text-align: center; }
+      .article-cta .btn { margin: .3rem; }
+      .footer { border-top: 1px solid #2c2f33; padding: 2rem 0; }
+    </style>
+  </head>
+  <body id="top">
+    <nav class="navbar navbar-expand-lg fixed-top article-nav">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Daniel Krydynski</a>
+        <div class="ml-auto">
+          <a class="btn btn-sm btn-outline-light" href="index.html">&larr; Back to portfolio</a>
+          <a class="btn btn-sm btn-primary" href="https://github.com/danielKrydynski/ouroboros" target="_blank"><i class="fa fa-github"></i> Repo</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="article-hero">
+      <div class="container">
+        <div class="kicker">Field notes &middot; Open source</div>
+        <h1>Ouroboros: A Recursive Dev Loop Where AI Improves Code &mdash; Safely</h1>
+        <p class="lede">A walkthrough of the harness that lets AI agents find work, do the work, check the work &mdash; and only then ask a human to merge. Including the honest parts: the reviewer that approved a destructive change, and the guard that cannot be argued with.</p>
+        <div class="article-meta">
+          <span>Daniel Krydynski</span> &middot; <span>October 2026</span> &middot; <span>~25 min read</span>
+          <div class="mt-2">
+            <span class="tag">AI agents</span><span class="tag">LLM</span><span class="tag">Python</span><span class="tag">Open source</span><span class="tag">Ollama</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="article-body">
+<p><em>Built by Daniel Krydynski, with Kiko. A harness that lets AI agents
+continuously improve a codebase — safely. This is the inside-out
+explanation of the public project at
+<a href="https://github.com/danielKrydynski/ouroboros">github.com/danielKrydynski/ouroboros</a>.</em></p>
+<p><em>One attribution up front, because it matters: </em><em>Hermes is Nous Research's
+agent harness — I didn't build it.</em><em> I run my own local AI setup on top of
+Hermes (my assistant Luna lives there), and Ouroboros is the layer I built
+on top of that: a recursive development loop that finds work, does the
+work, checks the work, and only then asks me to merge it.</em></p>
+<hr />
+<h2>Part 1 — The big idea</h2>
+<p>Most "AI writes code" setups are a single prompt: you ask, it answers, you
+paste. The recursive dev loop is a different animal. It's a <em>system</em> that
+runs without you: it finds work, does the work, checks the work, and only
+then asks you to merge it. Your job shifts from writing code to curating a
+backlog and approving merges. The agents do the typing; you do the judging.</p>
+<p>The loop has five stages:</p>
+<ol>
+<li><strong>Scout</strong> — an LLM role that audits the repo and proposes tickets (bugs,
+   refactors, missing tests, docs). It doesn't write code. It writes <em>work
+   orders</em>.</li>
+<li><strong>Ticket</strong> — a small markdown file describing one unit of work: what,
+   why, acceptance criteria. You curate these. Nothing enters the loop
+   without a ticket.</li>
+<li><strong>Implementer</strong> — an LLM role that works the ticket inside a disposable
+   <code>git worktree</code> on a throwaway branch. It proposes file changes; the
+   harness applies them; the test suite runs; failures go back to the
+   implementer. It iterates until tests pass or it exhausts its budget.</li>
+<li><strong>Reviewer</strong> — a separate LLM role that reads the diff and votes
+   APPROVE or REJECT, with reasons. A second pair of eyes that isn't the
+   author.</li>
+<li><strong>Merge</strong> — only if tests are green <em>and</em> the reviewer approves, the
+   harness asks you (the human) for merge approval. Then it merges to
+   <code>main</code>, marks the ticket done, and logs the cycle.</li>
+</ol>
+<p>The core design principle: <strong>the harness never trusts the agent.</strong>
+Every merge is earned through measurement — tests green plus reviewer
+sign-off — not through hope. The agents are powerful but caged: they only
+ever touch a throwaway worktree, never <code>main</code>, never your secrets, never
+the harness itself.</p>
+<p>Three things stay deliberately separate:</p>
+<ul>
+<li><strong>Harness</strong> (<code>harness/</code>, <code>prompts/</code>) — the loop controller. Lives in its
+  own folder, <em>outside</em> the product repo. Agents never edit it.</li>
+<li><strong>Backlog</strong> (<code>tickets/</code>) — the task queue. The scout proposes, you
+  curate.</li>
+<li><strong>Workers</strong> — the LLM roles, which only ever touch the disposable
+  worktree.</li>
+</ul>
+<p>Two more things that changed since the first draft of this idea: the loop
+used to be written for one specific repo — my own setup. It isn't anymore.
+Every prompt renders through <code>{{PROJECT_NAME}}</code> and
+<code>{{PROJECT_DESCRIPTION}}</code>, filled from config, so the same harness drives a
+loop over <em>any</em> repository. And it's public now: Ouroboros v0.2.0, on
+GitHub, with a full install guide, an agent-readable setup procedure, and
+scripts for Windows, macOS, and Linux.</p>
+<p>Why this matters beyond one repo: this is a concrete, runnable sketch of
+the "guide and let go" philosophy — set the fitness function (tests +
+review), give the system room to operate inside it, and let it surprise
+you. I treat my local agent Luna as a partner, not a tool: the posture
+is mentorship, not micromanagement. Set the standard, give the system
+room, and let it surprise you. The loop is that posture, compiled. It
+doesn't need you to hold its hand; it needs you to hold the <em>standard</em>.</p>
+<hr />
+<h2>Part 2 — The orchestrator (the state machine)</h2>
+<p><em><code>harness/orchestrator.py</code> — one full cycle: ticket → worktree → implement
+→ review → merge.</em></p>
+<p>The file opens with the whole philosophy in its docstring: <strong>the harness
+owns every git operation and every test run. The LLM roles only ever
+produce text.</strong> File contents, verdicts, ticket drafts, plans — all text.
+Nothing they output is trusted: paths get validated, tests must pass, and
+the merge gate defaults to requiring a human. That one paragraph is the
+entire security model in miniature.</p>
+<p>The file is organized in six sections:</p>
+<p><strong>1. Shell helpers.</strong> <code>sh()</code> runs git commands; <code>sh_shell()</code> runs the test
+command with a timeout (a hung test suite returns exit 124, not a hung
+loop). <code>notify()</code> posts to Discord if configured — and it's wrapped so a
+failed notification can never break a cycle. Small detail, big maturity:
+<em>observability must not be load-bearing.</em></p>
+<p><strong>2. Worktree hygiene.</strong> This section exists because of a real bug, found
+the embarrassing way. The implementer loop runs the test suite <em>before</em>
+committing — and <code>git add -A</code> doesn't know the difference between your code
+and the <code>__pycache__</code> directories the test run just created. So bytecode
+got swept into the commit, the reviewer's diff filled up with garbage, and
+the reviewer rejected a perfectly good change. The fix is a small helper,
+<code>_strip_test_artifacts()</code>, that deletes <code>__pycache__</code>, <code>.pytest_cache</code>, and
+<code>.mypy_cache</code> from the worktree before staging — called as the first line
+of <code>git_commit()</code>. The comment in the code says it plainly: <em>"This is
+worktree hygiene, not policy — we never touch the product repo's
+.gitignore."</em> The loop got smarter because it failed in public. Good.</p>
+<p><strong>3. Repo helpers.</strong> <code>repo_file_list()</code> gives the implementer a map of the
+repo (via <code>git ls-files</code>, capped at 400 files). <code>read_area_files()</code> loads
+the ticket's <code>area</code> files into the prompt so the model sees relevant code.
+<code>safe_relpath()</code> rejects absolute paths and <code>..</code> escapes — the model's
+output can't wander out of the worktree. <code>is_protected()</code> blocks writes to
+paths like <code>.env</code> or <code>secrets/</code>. <code>apply_files()</code> parses the model's
+<code>### FILE:</code> blocks and writes them, and <code>git_commit()</code> commits each
+iteration so every attempt is traceable — commits stamped with the
+<code>ouroboros(&lt;ticket&gt;): …</code> prefix under the <code>ouroboros-loop</code> git identity.</p>
+<p><strong>4. The implementer loop</strong> (<code>run_implementer</code>). This is the heart of the
+machine: for each iteration (up to the budget in config), it builds a
+prompt from the ticket + planner's plan + relevant source + harness
+feedback, calls the model, applies whatever <code>### FILE:</code> blocks came back,
+commits, and runs the test suite. If tests fail, the failure output goes
+back into the next prompt as <em>ground truth</em> — "the output below is ground
+truth," not a suggestion. The model iterates until tests pass or the
+budget runs out. If the model proposes no files at all, the harness
+doesn't crash — it nudges: propose a test or doc change instead, or
+explain why.</p>
+<p><strong>5. The reviewer gate</strong> (<code>run_reviewer</code>). Takes the diff between <code>main</code>
+and the loop branch and asks a <em>separate</em> model for a verdict, parsed with
+a strict regex: <code>VERDICT: APPROVE</code> or <code>REJECT</code>. On APPROVE, done. On
+REJECT (or an unparseable verdict — untrusted output, remember), the
+critique is fed back to the implementer for a bounded number of fix
+rounds, tests re-run, and the reviewer re-examines the new diff. Up to
+<code>max_review_rounds</code> rounds.</p>
+<p><strong>6. The main cycle</strong> (<code>main</code>). The five acts:
+1. Pick a ticket (highest-priority <code>open</code>, or <code>--ticket TICKET-003</code>).
+2. Create a fresh worktree in <code>worktrees/&lt;TICKET-ID&gt;/</code> plus a
+   <code>loop/&lt;ticket&gt;</code> branch — clearing any stale state from a crashed run
+   first.
+3. Run the implementer. On failure: ticket → <code>blocked</code>, cycle logged,
+   Discord notified 🔴.
+4. Run the reviewer. On rejection: ticket → <code>needs-human</code>, branch <em>kept</em>
+   for inspection, notified 🟡.
+5. Show the diff stat, ask the human to merge (unless <code>--yes</code>), merge
+   with <code>--no-ff</code>, ticket → <code>done</code>, log, notify 🟢.</p>
+<p>Two scars in this file are worth naming, because they're the kind of thing
+you only learn by running it. First: the merge now does an explicit
+<code>git checkout main_branch</code> before merging — never assume what the repo has
+checked out. Second: the worktree is removed <em>before</em> the branch is
+deleted, because a <code>loop/*</code> branch is always checked out by its worktree
+and <code>git branch -d</code> refuses otherwise. The repo's own contributor guide
+says it best: <em>"This was a real bug once; don't reintroduce it."</em></p>
+<p>Two things worth noticing. First, <strong>failure states are first-class
+citizens</strong>: <code>blocked</code>, <code>needs-human</code>, <code>merge-declined</code> — the loop never
+silently dies and never pretends. It always lands somewhere legible, with
+the branch preserved when a human might want to look. Second, the <code>finally</code>
+block: the worktree is <em>always</em> cleaned up, success or crash. The sandbox
+is disposable by construction, not by convention.</p>
+<p>The deepest idea in this file isn't any single function — it's the
+inversion of the usual relationship. Normally the human drives and the AI
+assists. Here the <em>harness</em> drives and the AI <em>proposes</em>. The code that
+touches reality (git, filesystem, tests, merge) is all deterministic
+Python. The model never touches reality at all. That's what makes the
+loop safe to run unattended: the blast radius of a misbehaving model is
+exactly one throwaway worktree.</p>
+<h3>Aside — the brain and the body</h3>
+<p>My analogy: the harness is the body, the LLM is the brain. It holds —
+with one twist that matters. A person can open their own eyes to check what
+they imagined. The implementer can't. Its only senses are what the body
+feeds it: the file list, the area sources, the test output. The body
+decides what the brain gets to perceive. That's the cage <em>and</em> the design.</p>
+<p>But the imagination parallel is real: when the implementer proposes a
+<code>### FILE:</code> block, that <em>is</em> its imagination — code shaped from its
+internal model of how things should look, not from anything it directly
+observed. And the test loop is what keeps imagination honest. Imagine →
+propose → the harness checks the imagination against reality (the test
+suite as shared ground truth) → feed back → imagine better. A person does
+the same thing when they picture a fix, try it, and watch it fail. The
+loop just makes the cycle explicit and unskippable.</p>
+<h2>Part 3 — The roles (scout, implementer, reviewer, planner)</h2>
+<p><em><code>prompts/*.md</code> — four job descriptions for the same brain.</em></p>
+<p>Here's the thing most people miss about multi-agent setups: there aren't
+four different AIs in this loop. There's one kind of mind — an LLM —
+wearing four different masks. The prompts are what decide what each mask
+is allowed to <em>think</em>. Same brain, four cognitive modes. If the
+orchestrator is the body, the prompts are the job descriptions handed to
+the brain each morning.</p>
+<p>Every prompt follows the same anatomy: <strong>identity</strong> (who you are right
+now), <strong>inputs</strong> (what the body will show you), <strong>output format</strong> (strict
+— because the harness is a <em>parser</em>, not a reader), and <strong>rules</strong> (what's
+out of scope). The strictness isn't bureaucracy. The orchestrator extracts
+<code>### FILE:</code> blocks with a regex and hunts for <code>VERDICT: APPROVE</code> with
+another one. If a role gets chatty or creative with its format, the
+machine can't read it. The roles don't converse with the harness — they
+produce machine-readable artifacts.</p>
+<p>And every prompt opens the same way: <em>"You are the Scout in a recursive
+development loop for {{PROJECT_NAME}}. {{PROJECT_DESCRIPTION}}"</em> — the
+placeholders filled by <code>harness/prompts.py</code> from your config. The roles
+don't know whose repo they're working on until you tell the config. That's
+the whole portability story in two template variables.</p>
+<p><strong>Scout</strong> — the eyes. It receives the file list, recent commits, and the
+backlog, and its only job is finding bite-sized work: bugs, missing
+tests, tech debt, security smells, docs gaps. It never writes code. Its
+output is <em>tickets</em>, in a strict schema with acceptance criteria. The
+rules are doing quiet management work: one ticket must fit in one cycle
+(~30–45 min), never duplicate the backlog, prefer testable criteria, no
+grand redesigns, 3–8 tickets per run. "Quality over quantity" — written
+into the prompt because the alternative is a scout that floods the backlog
+with 40 vague dreams.</p>
+<p><strong>Implementer</strong> — the hands. Receives the ticket, the planner's plan (if
+any), relevant file contents, and test feedback. Changes code <em>only</em> by
+proposing complete files in <code>### FILE:</code> blocks — never diffs, never
+snippets (diffs are where models hallucinate context lines; complete files
+are verifiable). It's explicitly told what it <em>cannot</em> do: no commands,
+no packages, no network — the harness runs the tests. The rules read like
+a senior dev's code-review checklist: stay inside the acceptance criteria,
+never break existing behavior to satisfy a new one, no secrets in code,
+match existing style, and "when tests fail, the failure output is ground
+truth: fix the cause, not the symptom." And one humane rule: <em>if the
+ticket is already satisfied, say so and propose no files.</em> The implementer
+is allowed to declare victory — or rather, allowed to notice there was
+never a battle.</p>
+<p><strong>Reviewer</strong> — the judge. Receives the ticket and the diff; last line of
+defense before <code>main</code>. Four judging criteria: acceptance criteria met, no
+regressions (check the callers), no security issues, no scope creep.
+Output: concise analysis, then exactly one line — <code>VERDICT: APPROVE</code> or
+<code>VERDICT: REJECT</code>. And then the most interesting sentence in the entire
+prompt set:</p>
+<blockquote>
+<p><em>Vague rejections get ignored and the change ships anyway on the next
+round — so be specific.</em></p>
+</blockquote>
+<p>That's incentive design smuggled into a prompt. It makes the reviewer
+<em>accountable</em>: a lazy REJECT with no actionable bullets is worse than
+useless, because the loop routes around it. The prompt doesn't just tell
+the reviewer what to do — it tells it what happens if it does the job
+badly. Critique without specifics is noise, and the system is designed to
+treat it as such.</p>
+<p><strong>Planner</strong> — the architect. Invoked before the implementer on tickets
+tagged <code>type: feature</code> (wired via <code>planner.enabled_for_feature_tickets</code> in
+config). Produces goal, files, ordered steps (each small enough to keep
+tests green), verification, and risks — which the orchestrator prepends to
+the implementer's context. And here's the honest bit, enforced in code
+rather than prose: the planner is <em>advisory</em>. <code>get_plan()</code> can never kill
+a cycle — on any failure it degrades to "no plan" and the loop proceeds.
+A planning step that could take down the whole run would be a liability,
+not a feature.</p>
+<p>The pattern across all four: <strong>each role is deliberately dumber than the
+whole system.</strong> The scout can't code. The implementer can't judge. The
+reviewer can't fix (it can only reject with specifics, and the
+<em>implementer</em> fixes). The planner can't execute. Nobody has the full
+picture except the harness — and the harness can't think. Intelligence
+lives in the <em>composition</em>, not in any single call. That's the oldest
+trick in systems design, and it works on minds too: a team of narrow
+specialists, coordinated by a dumb-but-reliable process, outperforms one
+brilliant generalist you can't trust.</p>
+<hr />
+<h2>Part 4 — The safety model (why the cage matters)</h2>
+<p>The README says it best: <em>"Safety rules (enforced by the harness, not by
+hope)."</em> Every layer below is deterministic Python, not a polite request
+in a prompt. Prompts can be ignored, misunderstood, or jailbroken. Code
+can't be argued with. The cage has six layers, and they're ordered by a
+single principle: <strong>the more irreversible the action, the more gates guard
+it.</strong></p>
+<p><strong>Layer 1 — The filesystem cage.</strong> The agent never sees your repo. It sees
+a disposable <code>git worktree</code> on a throwaway <code>loop/*</code> branch. <code>main</code> is
+touched by exactly one operation — a <code>--no-ff</code> merge — and only after
+every gate passes. On top of that, every path the model proposes goes
+through two validators: <code>safe_relpath()</code> rejects absolute paths and <code>..</code>
+escapes (the output can't wander out of the worktree), and <code>is_protected()</code>
+blocks writes to <code>.env</code>, <code>secrets/</code>, and anything else you list. The
+model's pen can only move inside the sandbox you drew.</p>
+<p><strong>Layer 2 — The prompt cage.</strong> Secrets never enter prompts. The workers see
+the ticket and the code — nothing else. No API keys, no tokens, no
+personal data in context, which means none can leak into output. And the
+harness itself lives <em>outside</em> the product repo: the implementer literally
+cannot reach the files that control it. The loop controller is not
+self-modifying, not by policy — by directory structure. The config file
+holds no secrets either; the OpenRouter key lives in an environment
+variable, never in YAML.</p>
+<p><strong>Layer 3 — The budget cage.</strong> Everything that could run forever is
+bounded: 12 implementer iterations per ticket, 2 review rounds, 3 fix
+iterations per round, 600 seconds per test run, 30,000 chars of diff for
+the reviewer. A confused model can't burn your GPU all night or drown the
+reviewer in a million-line diff. Bounded compute, bounded time, bounded
+context. When a budget exhausts, the ticket lands in a legible failure
+state — <code>blocked</code> — instead of spinning.</p>
+<p><strong>Layer 4 — The fitness cage.</strong> The test suite plus the reviewer model.
+<em>No measurement, no merge.</em> This is the only part of the system allowed to
+say "good enough," and it's the part with no imagination at all — exit
+code 0 and a regex-matched APPROVE. Notice what this means: the loop's
+definition of quality is entirely external to the models. They don't get
+to decide what "done" means. You do, via the tests you wrote and the
+ticket criteria you approved.</p>
+<p><strong>Layer 5 — The human cage.</strong> <code>require_human_approval_for_merge</code> defaults
+to true. The <code>--yes</code> flag exists, but you have to reach for it
+deliberately — it's an act of earned trust, not a default. This is
+graduated autonomy done right: the system is useful on day one (you're the
+merge button) and <em>capable</em> of full autonomy later, but the step across
+that line is yours to take, consciously.</p>
+<p><strong>Layer 6 — Failure hygiene.</strong> The <code>finally</code> block always torches the
+worktree — success, failure, or crash. Notifications are wrapped so a dead
+Discord webhook can never break a cycle (<em>observability must not be
+load-bearing</em>). And every failure lands somewhere legible: <code>blocked</code>,
+<code>needs-human</code>, <code>merge-declined</code> — with the branch preserved whenever a
+human might want to inspect the wreckage. The loop never silently dies and
+never pretends.</p>
+<p>Step back and the shape is clear: it's <strong>defense in depth for agency</strong>.
+Proposing text is unguarded (harmless). Writing files is path-validated
+(reversible — it's a throwaway branch). Running tests is timeout-bounded
+(expensive but contained). Merging to <code>main</code> is guarded by tests, a
+reviewer, and a human (irreversible — or at least, the one action you'd
+regret). Each layer assumes the one inside it has already failed. That's
+the mindset: not "how do we keep the model well-behaved," but "what's the
+blast radius when it isn't" — and the answer, at every layer, is <em>small
+and legible</em>.</p>
+<h2>Part 5 — Making it yours (config, models, scheduling)</h2>
+<p>Everything the loop needs to know about <em>your machine</em> and <em>your project</em>
+lives in one file: <code>harness/config.yaml</code>. That's a deliberate design
+choice — the harness is portable, the config is personal. Six sections:</p>
+<p><strong><code>project</code>.</strong> <code>name</code> and <code>description</code> — a short name and one or two
+sentences about what the project does, its stack, who it's for. This is
+what fills <code>{{PROJECT_NAME}}</code> and <code>{{PROJECT_DESCRIPTION}}</code> in every role
+prompt. The agents meet your repo through these two fields, so write them
+like an introduction, not a label.</p>
+<p><strong><code>product_repo</code> / <code>main_branch</code>.</strong> The full path to the git repo the loop
+improves (forward slashes work on Windows too), and your default branch.
+Any repo with a test suite — not just mine, not just one stack. If
+<code>product_repo</code> isn't a git repo, the orchestrator refuses to run. Fail
+fast on bad config, not halfway through a cycle.</p>
+<p><strong><code>models</code>.</strong> Ollama-first, OpenRouter fallback. The defaults assume
+~30B-class models (<code>qwen3:30b</code>, <code>qwen3-coder:30b</code> for the implementer) —
+<em>you will change these.</em> Run <code>ollama list</code> and put in the names you
+actually have pulled, character for character. Three things worth noticing
+here. First, each role gets its own model: the scout, implementer,
+reviewer, and planner don't have to be the same actor. A small fast model
+can scout; a coder-tuned model implements; a careful one reviews. Same
+script, different performances — cast on purpose. Second, the cloud
+fallback only fires when the local call <em>fails</em> — it's a safety net, not
+a default. Your data stays on your machine unless your machine can't do
+the job. Third, model sizing is a real operational lesson, not a footnote:
+on my own smoke test, the reviewer timed out after 300 seconds on a 9B
+model, so the reviewer role got overridden to a 4B model for that run.
+Judgment turns out to be cheaper than generation — size accordingly, and
+don't be proud about it.</p>
+<p><strong><code>planner</code>.</strong> One flag: <code>enabled_for_feature_tickets</code>. Leave it on — a
+planning pass before the implementer on big tickets, advisory and
+never fatal.</p>
+<p><strong><code>budgets</code>.</strong> The numbers from Part 4 — iterations, rounds, timeouts,
+diff caps. Tune these once you've watched a few cycles. A cheap trick:
+start tight (low budgets), because a tight budget that keeps blocking
+tells you your tickets are too big — which is useful information about
+your backlog, not just your loop.</p>
+<p><strong><code>gates</code>.</strong> <code>test_command</code> (change <code>pytest -q</code> to whatever your repo
+uses — <code>npm test</code>, <code>go test ./...</code>, <code>dotnet test</code>; it must exit 0 on
+success), <code>require_human_approval_for_merge</code> (leave <code>true</code> until the loop
+has earned it), <code>protected_paths</code> (add anything the implementer should
+never touch). This section is where your <em>judgment</em> lives in the system.
+Everything else is machinery; the gates are values.</p>
+<p><strong><code>notifications</code>.</strong> Optional Discord webhook. Cycle results — 🟢 merged,
+🟡 needs-human, 🔴 blocked — posted to a channel. Waking up to a loop
+report is the "let go" part made tangible: the system worked while you
+slept, and all you have to do is read the log.</p>
+<p><strong>Running it.</strong> The quickstart is five steps: clone the repo <em>next to</em>
+(not inside) your product repo, run the bootstrap (<code>setup/setup.ps1</code> on
+Windows, <code>setup/setup.sh</code> on macOS/Linux — it checks Python, git, and
+Ollama and installs the two Python deps), edit the config, optionally set
+<code>OPENROUTER_API_KEY</code>, and smoke-test with <code>run_cycle.bat</code> — which
+processes <code>TICKET-001</code>, a docs-only ticket that can't break anything.
+There's also <code>setup/agent-setup.md</code>: the same procedure written as a
+deterministic, checkable script for an assisting AI agent, with
+<code>setup/manifest.json</code> carrying the machine-readable version. If you have
+an AI helping you install this, point it there first. Watch one full cycle
+complete. Then daily use is two commands: <code>run_scout.*</code> to propose
+tickets, <code>run_cycle.*</code> to work them. When the gates have proven out,
+Windows Task Scheduler (or cron, or systemd, or launchd) runs it nightly
+and you graduate from operator to reviewer.</p>
+<h3>The honest test report</h3>
+<p>I'd rather tell you what's actually been proven than sell you a story.
+The full pipeline — ticket → worktree → implement → test → review →
+merge → branch deletion → worktree cleanup — passes end to end against a
+disposable repo with a stubbed LLM. Every gate, every cleanup step,
+verified.</p>
+<p>The live-model story has real entries now, including an ugly one. On
+2026-09-28, TICKET-001 — the docs-only smoke test — ran against my
+Windows machine with local models via Ollama and <code>pytest -q</code> as the
+gate. The first attempt <em>failed honestly</em>: the reviewer timed out after
+300 seconds, so no verdict was ever cast and nothing merged. (My local
+agent's first report claimed a full successful cycle. It wasn't one.
+The log showed a timeout; the merge never happened. I keep that in
+because the loop is supposed to make exactly this kind of failure
+legible — and the first thing it made legible was an overconfident
+report from my own setup.) The second attempt surfaced the
+<code>__pycache__</code> bug from Part 2. The third attempt, with the fix wired
+in, passed clean: round 1, <code>[local:qwen3.5:4b]</code> APPROVE, ticket →
+done, change merged to <code>main</code>, no <code>loop/*</code> branches or worktrees left
+behind. Full cycle, live models, proven.</p>
+<p>So: the loop <em>works</em> on live models. What's still pending is breadth —
+more tickets, harder tickets — and the TICKET-004 story in Part 6,
+which is the more important lesson anyway.</p>
+<p>Known rough edges, since we're being honest: the
+<code>_strip_test_artifacts</code> fix still needs its own commit and push to the
+public repo (<code>harness/config.yaml</code>, <code>tickets/TICKET-001.md</code>, and
+<code>CYCLE_LOG.md</code> stay local); the LICENSE still says "Daniel" instead
+of my full name; and there's a stale duplicate <code>reviewer:</code> key to
+delete. Small things. They'll get fixed.</p>
+<p><strong>Upgrade paths</strong> (documented, not built — honest labels again): swap the
+file-block implementer for ACP calls into your editor so the agent edits
+like you do; point the roles at your own agent once it can use tools. The
+harness shape — tickets → worktree → tests → review → merge — doesn't
+change. Only the actors get better.</p>
+<hr />
+<h2>Part 6 — Field notes: what live runs actually taught us</h2>
+<p>The write-up above describes the loop as designed. This part describes
+the loop as <em>survived</em> — what happened when it ran real tickets with
+real models, and what those runs taught me that the design doc never
+could.</p>
+<h3>The reviewer is a heuristic, not a judge</h3>
+<p>TICKET-004 was supposed to be simple: rewrite the install guide. The
+implementer — a 4B model, the same size that had cleanly reviewed
+TICKET-001 — produced a 220-line rewrite that gutted INSTALL.md from
+~256 lines down to 36: a destructive rewrite of the repo's most
+important doc. And the reviewer <strong>approved it</strong>. The destructive change
+merged into my local main before I caught it. (The public GitHub repo
+was untouched — <code>origin/main</code> was still at <code>1c6752e</code> — which is the one
+thing that saved the day: local damage, public record intact.)</p>
+<p>Read that again, because it's the most important sentence in this
+write-up: <strong>the reviewer approved a destructive change.</strong> The safety
+layer I described in Part 4 as "the last line of defense before <code>main</code>"
+let a wrecking ball through.</p>
+<p>So here's the honest correction to Part 4: the reviewer gate is not a
+judge. It's a heuristic — a cheap second opinion that catches <em>some</em>
+bad changes, not a guarantor. The real safety was always elsewhere: the
+human approval gate (which was on, and which is why I caught it), the
+separation of local damage from the public repo, and — the fix I added
+after — a deterministic guard the model can't argue with.</p>
+<h3>The guard that can't be argued with</h3>
+<p>After TICKET-004, I added <code>max_deletions_per_iteration: 5</code> to the
+harness config: any single implementer iteration that deletes more than
+5 lines gets blocked before anything is committed. It's enforced in
+deterministic Python, not in a prompt. Prompts can be ignored;
+<code>if deletions &gt; 5: block</code> can't.</p>
+<p>The guard proved itself immediately. A re-run of TICKET-004 on
+2026-10-02 hit it on first contact: the implementer proposed a
+destructive rewrite, the guard blocked it, the reviewer rejected what
+was left, and nothing merged. No damage. That's the lesson in one
+sentence: <strong>when a model proves unreliable, replace the model's
+judgment with a measurement.</strong> The reviewer is a model; the guard is a
+ruler. Rulers don't have bad days.</p>
+<h3>APPEND, not rewrite: designing around the model's actual limits</h3>
+<p>The deeper problem TICKET-004 exposed wasn't just a bad review — it was
+a capability gap. The ticket asked a 9B model (with thinking disabled, a
+config choice made for speed) to rewrite INSTALL.md, and it couldn't
+reproduce ~256 lines of careful documentation verbatim. It summarized,
+it compressed, it destroyed. That's not a prompt problem; it's what the
+model <em>can</em> do. My assessment: a 9B-class model with thinking off
+cannot reliably reproduce long documents verbatim. No prompt rewrite
+fixes that. You don't ask a tool to do what it can't do — you change
+the task.</p>
+<p>So the long-term fix is structural, not rhetorical: <code>### APPEND:</code>
+blocks. Instead of the implementer rewriting whole files, it appends
+surgical additions — with newline hygiene, <code>safe_relpath</code> and
+<code>is_protected</code> checks, and a prompt rule preferring APPEND over
+<code>### FILE:</code> rewrites. <code>APPEND_BLOCK</code> is already live in
+<code>harness/orchestrator.py</code>; the prompt rule in <code>prompts/implementer.md</code>
+and the ticket-body rewrite are still pending. The direction is clear
+though: <strong>make the unit of change small enough that the model's
+weakness doesn't matter.</strong> Small diffs, deterministic guards, human at
+the merge button.</p>
+<h3>Windows is a real platform, not an edge case</h3>
+<p>Running this on Windows surfaced a whole class of bugs the design never
+imagined: the test gate <code>python -m py_compile harness/*.py</code> never
+globs on Windows (it's now <code>python -m compileall harness/</code>); <code>sh()</code>
+needed <code>encoding="utf-8", errors="replace"</code> pinned; the config needed
+<code>DEFAULT_CTX: 8192</code> and <code>think: False</code> to behave. My local agent
+documented all of it in an <code>ouroboros-cleanup</code> skill so the next
+machine doesn't have to rediscover it. If you're building agent
+harnesses, test on the platform your users actually run — the shell is
+part of the system, and the system includes Windows.</p>
+<h3>The loop is now eating its own cooking</h3>
+<p>As of late September, the loop on my Windows machine is pointed at
+itself: <code>product_repo</code> is the Ouroboros repo, <code>require_human_approval_for_merge</code>
+is true, and the scout has proposed 5 tickets sitting in the backlog.
+Dogfooding is the only honest test of a dev tool — and after TICKET-004,
+I'm in no hurry to turn off the human gate.</p>
+<h3>The current open list</h3>
+<p>Since this write-up is supposed to be honest, here's what's still
+unresolved as I write this: restore the local INSTALL.md from
+<code>origin/main</code> (it's 36 lines; it should be ~256); wire the APPEND
+prompt rule into <code>prompts/implementer.md</code>; rewrite the TICKET-004 body
+to use <code>### APPEND:</code>; commit and push the <code>_strip_test_artifacts</code> fix
+as its own commit; fix the LICENSE name; delete the stale duplicate
+<code>reviewer:</code> key. None of these are design problems. They're just work
+— the kind the loop itself will do, one ticket at a time, once I point
+it at the backlog.</p>
+<hr />
+<h2>Closing — what this is really about</h2>
+<p>This harness is a small, runnable instance of a much bigger idea: <strong>guide
+and let go.</strong> You don't control the agent's every move — you set the
+fitness function (tests, reviewer, ticket criteria), build the cage
+(worktrees, budgets, gates), and then let the system surprise you inside
+those bounds. The config file is where "guide" lives. The nightly schedule
+is where "let go" lives.</p>
+<p>It's also, not coincidentally, the posture of anyone building something
+they want to outgrow them — a mentor, a lead, a founder. You don't
+micromanage people into being excellent. You hold the standard, give
+them room, and accept that what comes back might not be what you
+planned. The loop is that posture, compiled.</p>
+<p>Start small: one smoke-test ticket, one watched cycle. The cage holds.
+Then let go a little more each week, and see what it becomes.</p>
+<p>TICKET-004 is the same lesson from the other side: letting go doesn't
+mean removing the rails — it means building rails you can actually
+trust (deterministic guards, small change units, a human at the merge
+button) and then trusting <em>them</em> instead of the model's judgment. Guide
+with the config. Let go with the schedule. And when the model shows you
+what it can't do, believe it the first time.</p>
+<hr />
+<h2>Appendix — the repo</h2>
+<ul>
+<li><strong>Code:</strong> <a href="https://github.com/danielKrydynski/ouroboros">github.com/danielKrydynski/ouroboros</a>
+  (v0.2.0) — <code>README.md</code> for the architecture, <code>INSTALL.md</code> for the full
+  operations guide, <code>AGENTS.md</code> for contributors, <code>setup/agent-setup.md</code>
+  if you're bringing an AI assistant to the install.</li>
+<li><strong>This write-up</strong> is the companion piece: the why and the how, with the
+  scars left in.</li>
+</ul>
+    </main>
+
+    <div class="container">
+      <div class="article-cta">
+        <h4 class="mb-3">Try it yourself</h4>
+        <p class="text-muted">Ouroboros is open source and runs on local models via Ollama. Clone it, point it at a repo, and let the loop run.</p>
+        <a class="btn btn-primary" href="https://github.com/danielKrydynski/ouroboros" target="_blank"><i class="fa fa-github"></i> danielKrydynski/ouroboros</a>
+        <a class="btn btn-outline-light" href="index.html#contact">Get in touch</a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="h4 title text-center">Daniel Krydynski</div>
+      <div class="text-center text-muted">
+        <p>&copy; 2026 Daniel Krydynski. All rights reserved. &bull; <a href="index.html">Portfolio</a> &bull; <a href="https://github.com/danielKrydynski" target="_blank">GitHub</a> &bull; <a href="https://www.linkedin.com/in/danielkrydynski/" target="_blank">LinkedIn</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
